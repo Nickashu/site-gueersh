@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background-image: url('/static/img/teste.png');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    top: 0;
+    width: 100%;
+    padding: 1rem;
+    height: 15em;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.logo {
+    color: black;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.menu-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.menu-vertical a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.menu-vertical a:hover {
+    color: yellow;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.conteudo {
+    padding-top: 120px; /* espaço para o header fixo */
+    padding-bottom: 80px; /* espaço para o footer */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background-color: black;
+    color: rgb(255 237 41);
+}
+
+.conteudo section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer {
+    background-color: rgb(255, 251, 128);
+    text-align: center;
+    padding: 1rem;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+}
+
+.footer .footer-texto{
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.footer .footer-links{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-left: 1rem;
+}
+
+.instagram-button {
+    color: black;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+.instagram-button:hover {
+    color: #e1306c; /* rosa instagram */
+}

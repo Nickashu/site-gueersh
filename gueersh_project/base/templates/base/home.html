@@ -1,11 +1,43 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
-</head>
-<body>
-    <h1>Site Gueersh</h1>
-</body>
-</html>
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Início - Feitio{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<div class="lancamento-container">
+  <div class="coluna-esquerda">
+      <div class="div-img-album">
+        <img src="{% static 'img/capa_album.png' %}" alt="Capa do álbum" class="capa-album">
+      </div>
+      <span class="titulo-ouvir">Ouvir</span>
+
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed?uri=spotify%3Aalbum%3A6IBOqKNurEJp3j4GiY0iI9" width="100%" height="152" frameBorder="0" allowfullscreen=""
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+      <div class="creditos">
+          <span class="titulo-creditos">Créditos</span>
+          <p>
+            Gravação: Daniel Duarte <br>
+            Mixagem e masterização: Daniel Duarte<br>
+            Arte Gráfica: Bárbara Guanaes<br>
+            Produzido e composto por Brita:<br>
+            Vitor - guitarra<br>
+            Hugo Noguchi - baixo<br>
+            Bárbara Guanaes - guitarra<br>
+            Daniel Duarte - bateria<br>
+          </p>
+      </div>
+  </div>
+
+  <div class="coluna-direita">
+      <h2 class="titulo-musica">Brita<br><span class="subtitulo">Passo em Falso</span></h2>
+      <p class="data-lancamento">data de lançamento: 05/12/2024</p>
+
+      <p>Um dia cinzento, a alma inquieta buscando respostas. 'Passo em Falso' é a trilha sonora para quem já se perdeu em um labirinto de dúvidas e desafios da vida moderna.</p>
+      <p>Com uma alquimia sonora única, a Brita mescla a energia do post-hardcore com a melancolia do indie e a brasilidade vibrante, criando uma experiência musical intensa e catártica.</p>
+      <p>Gravada entre a frenética São Paulo e a tranquilidade do litoral de Búzios, essa música é um convite para explorar os abismos da própria mente e encontrar força para seguir em frente.</p>
+      <p>O single é uma prévia do que está por vir, com o novo disco chegando no primeiro trimestre de 2025.</p>
+  </div>
+</div>
+{% endblock %}
