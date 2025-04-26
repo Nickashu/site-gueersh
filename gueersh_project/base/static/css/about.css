@@ -1,0 +1,43 @@
+.sobre-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    background-color: #000;
+    color: #fffd61;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10em;
+}
+
+.sobre-coluna {
+    flex: 1;
+    min-width: 280px;
+    margin: 10px;
+}
+
+.titulo-bloco {
+    display: inline-block;
+    background-color: #fffd61;
+    color: black;
+    padding: 8px 20px;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.texto-sobre {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 300px;
+}
+
+.contato-bloco {
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.contato-bloco a {
+    color: #fffd61;
+    text-decoration: none;
+}  

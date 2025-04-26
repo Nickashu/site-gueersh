@@ -1,13 +1,20 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.conf import settings
-from django.http import JsonResponse
 import logging
+from django.contrib.auth.decorators import login_required
 
 logging.basicConfig(level=logging.INFO)
 
 def home(request):
     context = {}
     return render(request, 'base/home.html', context)
+
+def about(request):
+    context = {}
+    return render(request, 'base/about.html', context)
+
+def music(request):
+    context = {}
+    return render(request, 'base/music.html', context)
 
 """
 def note_create(request):

@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Música - Feitio{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/music.css' %}">
+
+<div class="container my-5">
+
+    <!-- Últimos Lançamentos -->
+    <h2 class="text-center text-warning mb-5">Últimos Lançamentos</h2>
+    
+    <div class="row justify-content-center">
+        <!-- Álbum 1 -->
+        <div class="col-md-4 text-center mb-4">
+            <img src="URL_DA_IMAGEM_1" class="img-fluid mb-3" alt="Brita">
+            <h5 class="fw-bold text-warning">BRITA</h5>
+            <p class="text-warning">PASSO EM FALSO</p>
+        </div>
+        
+        <!-- Álbum 2 -->
+        <div class="col-md-4 text-center mb-4">
+            <img src="URL_DA_IMAGEM_2" class="img-fluid mb-3" alt="Gueersh">
+            <h5 class="fw-bold text-warning">GUEERSH</h5>
+            <p class="text-warning">INTERFERÊNCIAS NA FAZENDINHA</p>
+        </div>
+    </div>
+
+    <!-- Linha divisória -->
+    <hr class="text-light my-5">
+
+    <!-- Bandas -->
+    <section class="section-bandas">
+        <h2 class="text-center text-warning mb-5">Bandas</h2>
+
+        <div class="div-bandas">
+            <div class="col-6 col-md-2 mb-2 div-btn-banda">
+                <a href="/bandas/gueersh/" class="btn-banda"><span class="nome-banda">gueersh</span></a>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}

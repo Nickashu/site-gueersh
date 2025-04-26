@@ -25,6 +25,7 @@ body {
 }
 
 .capa-album {
+    border-radius: 8px;
     width: 80%;
     max-width: 400px;
     height: auto;
@@ -32,27 +33,9 @@ body {
     margin-bottom: 20px;
 }
 
-.titulo-ouvir {
-    background-color: #fffd61;
-    color: black;
-    padding: 5px 10px;
-    font-weight: bold;
-    display: inline-block;
-    margin-bottom: 5px;
-}
-
 .creditos {
     margin-top: 20px;
     color: #fffd61;
-}
-
-.titulo-creditos {
-    background-color: #fffd61;
-    color: black;
-    padding: 5px 10px;
-    font-weight: bold;
-    display: inline-block;
-    margin-bottom: 5px;
 }
 
 .titulo-musica {

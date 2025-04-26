@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Sobre - Feitio{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+<div class="sobre-container">
+    <div class="sobre-coluna">
+        <div class="titulo-bloco amarelo txt-destaque">Sobre</div>
+        <p class="texto-sobre">
+        Feitio nasceu em 2020 para facilitar a distribuição das produções de um coletivo
+        de artistas do interior do Rio de Janeiro.
+        </p>
+    </div>
+
+    <div class="sobre-coluna">
+        <div class="titulo-bloco amarelo txt-destaque">Contato</div>
+        
+        <div class="contato-bloco">
+        <strong>IMPRENSA</strong><br>
+        Lívia Gomes / <a href="mailto:feitiorecords@gmail.com">feitiorecords@gmail.com</a>
+        </div>
+
+        <div class="contato-bloco">
+        <strong>BOOKING</strong><br>
+        Guilherme Paz / <a href="mailto:varejaovolante@gmail.com">varejaovolante@gmail.com</a>
+        </div>
+
+        <div class="contato-bloco">
+        <strong>SELO e DIREITOS AUTORAIS</strong><br>
+        Thomaz Alves / <a href="mailto:feitiorecords@gmail.com">feitiorecords@gmail.com</a>
+        </div>
+
+        <div class="contato-bloco">
+        <strong>DESIGN</strong><br>
+        David Dinucci / <a href="mailto:feitiorecords@gmail.com">feitiorecords@gmail.com</a>
+        </div>
+
+        <div class="contato-bloco">
+        Igor Arruda / <a href="mailto:feitiorecords@gmail.com">feitiorecords@gmail.com</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

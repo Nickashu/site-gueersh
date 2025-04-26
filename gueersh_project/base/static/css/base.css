@@ -16,30 +16,45 @@ body {
     top: 0;
     width: 100%;
     padding: 1rem;
-    height: 15em;
     color: white;
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
 
-.logo {
-    color: black;
-    font-size: 1.5rem;
-    font-weight: bold;
+
+.div-logo-header {
+    height: auto;
+    overflow: hidden;
+    transform: rotate(7.805826112145553deg);
 }
+.logo-header {
+    width: 100%;
+    height: 10em;
+    clip-path: circle(0% at 50% 50%);
+    animation: revealAnim 7s ease-out forwards;
+    opacity: 1;
+}
+@keyframes revealAnim {
+    0% {
+        clip-path: circle(0% at 50% 50%);
+    }
+    100% {
+        clip-path: circle(150% at 50% 50%);
+    }
+}
+
 
 .menu-vertical {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    font-size: 1.7em;
 }
 
 .menu-vertical a {
     color: black;
     text-decoration: none;
     font-weight: bold;
-    font-size: 2rem;
 }
 
 .menu-vertical a:hover {
@@ -49,8 +64,8 @@ body {
 }
 
 .conteudo {
-    padding-top: 120px; /* espaço para o header fixo */
-    padding-bottom: 80px; /* espaço para o footer */
+    padding-top: 5em;
+    padding-bottom: 5em;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -102,4 +117,21 @@ body {
 
 .instagram-button:hover {
     color: #e1306c; /* rosa instagram */
+}
+
+.txt-destaque{
+    border-radius: 5px;
+    background-color: #fffd61;
+    color: black;
+    padding: 5px 10px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 5px;
+    border: 1px solid black
+}
+.txt-destaque:hover{
+    background-color: black;
+    color: #fffd61;
+    border: 1px solid #fffd61;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
