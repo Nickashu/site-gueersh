@@ -35,9 +35,11 @@
         <h2 class="text-center text-warning mb-5">Bandas</h2>
 
         <div class="div-bandas">
-            <div class="col-6 col-md-2 mb-2 div-btn-banda">
-                <a href="/bandas/gueersh/" class="btn-banda"><span class="nome-banda">gueersh</span></a>
-            </div>
+            {% for band in bands %}
+                <div class="col-6 col-md-2 mb-2 div-btn-banda">
+                    <a href="{% url 'show_band' band.pk %}" class="btn-banda"><span class="nome-banda">{{ band.name }}</span></a>
+                </div>
+            {% endfor %}
         </div>
     </section>
 

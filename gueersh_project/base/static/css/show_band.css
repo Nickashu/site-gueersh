@@ -1,0 +1,68 @@
+.container-banda{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1em;
+    width: 60%;
+}
+
+.coluna-esquerda{
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    row-gap: 1em;
+    width: 50%;
+}
+
+.coluna-direita{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 1em;
+    width: 50%;
+}
+
+.div-band-img img{
+    border-radius: 5px;
+}
+
+.band-description h1{
+    font-weight: bold;
+}
+
+.social-networks{
+    margin-bottom: 1em;
+}
+.div-social-networks{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: 1em;
+    font-size: 2em;
+}
+.div-social-networks a{
+    text-decoration: none;
+    color: rgb(147 147 147);
+}
+
+.div-contacts{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+}
+.contact-info p{
+    margin: 0;
+}
+.title-contact{
+    font-weight: bold;
+}
+
+.div-turnes{
+    display: flex;
+    flex-direction: column;
+    row-gap: 2em;
+}
+.turne-lista p{
+    margin: 0;
+}

@@ -1,0 +1,84 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{{band.name}} - Feitio{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/show_band.css' %}">
+
+<div class="container-banda">
+    <div class="coluna-esquerda">
+        <!-- Foto da banda -->
+        <div class="div-band-img">
+            <img src="{{ band.image.url }}" class="img-fluid" alt="Foto: {{ band.name }}">
+        </div>
+
+        <!-- Descrição -->
+        <div class="band-description">
+            <h1>{{ band.name }}</h1>
+            <p>{{ band.description }}</p>
+        </div>
+
+        <!-- Botão Redes Sociais -->
+        <div class="social-networks">
+            <div class="txt-destaque">Redes Sociais</div>
+            <div class="div-social-networks">
+                {% for social_network in social_networks %}
+                    <a href="{{ social_network.link }}" target="_blank">
+                        {{ social_network.html_icon|safe }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Botão Contato -->
+        <div class="contact">
+            <div class="txt-destaque">Contato</div>
+            <div class="div-contacts">
+                {% for contato in contacts %}
+                    <div class="contact-info">
+                        <p class="title-contact">{{ contato.role }}</p>
+                        <p>{{ contato.name }} - <a href="mailto:{{ contato.email }}">{{ contato.email }}</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="coluna-direita">
+        <div class="ouvir">
+            <div class="txt-destaque">Ouvir</div>
+            <iframe style="border-radius:12px" src="{{ band.spotify_link }}" width="100%" height="152" frameBorder="0" allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+
+        <div class="assistir">
+            <div class="txt-destaque">Assistir</div>
+            <iframe width="100%" height="300" src="{{ band.video_link }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+        <div class="div-turnes">
+            {% for tour in tours %}
+                <div class="turne">
+                    <div class="txt-destaque">Turnê {{ tour.year }}</div>
+                    <div class="turne-lista">
+                    {% for concert in tour.concerts %}
+                        <p>{{ concert.date }} - {{ concert.city }}, {{ concert.state }}, {{ concert.country }} @ {{ concert.venue }}</p>
+                    {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    var social_networks = {{social_networks|safe}};
+    var tours = "{{tours|safe}}";
+    //console.log(tours);
+    //console.log("dasdldajads");
+</script>
+{% endblock %}

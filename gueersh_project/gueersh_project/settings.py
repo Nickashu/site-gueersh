@@ -33,6 +33,8 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'   # Para desenvolvimento, exibe os emails no console
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Application definition
 

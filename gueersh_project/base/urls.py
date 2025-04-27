@@ -5,6 +5,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('music/', views.music, name='music'),
+    path('group/<int:band_id>/', views.show_band, name='show_band'),
+    
     #path('<int:pk>/', views.note_detail, name='note_detail'),
     #path('new/', views.note_create, name='note_create'),
     #path('problems/', views.show_problems, name='show_problems'),
