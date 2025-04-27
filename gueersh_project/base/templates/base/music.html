@@ -11,20 +11,16 @@
     <!-- Últimos Lançamentos -->
     <h2 class="text-center text-warning mb-5">Últimos Lançamentos</h2>
     
-    <div class="row justify-content-center">
-        <!-- Álbum 1 -->
-        <div class="col-md-4 text-center mb-4">
-            <img src="URL_DA_IMAGEM_1" class="img-fluid mb-3" alt="Brita">
-            <h5 class="fw-bold text-warning">BRITA</h5>
-            <p class="text-warning">PASSO EM FALSO</p>
-        </div>
-        
-        <!-- Álbum 2 -->
-        <div class="col-md-4 text-center mb-4">
-            <img src="URL_DA_IMAGEM_2" class="img-fluid mb-3" alt="Gueersh">
-            <h5 class="fw-bold text-warning">GUEERSH</h5>
-            <p class="text-warning">INTERFERÊNCIAS NA FAZENDINHA</p>
-        </div>
+    <div class="row justify-content-center div-ultimos-lancamentos">
+        {% for release in last_releases %}
+            <div class="col-md-4 text-center mb-4">
+                <a href="{% url 'show_release' release.pk %}" class="btn-release">
+                    <img src="{{ release.image.url }}" class="img-fluid mb-3" alt="Brita">
+                    <h5 class="fw-bold text-warning">{{ release.band.name }}</h5>
+                    <p class="text-warning">{{ release.title }}</p>
+                </a>
+            </div>
+        {% endfor %}
     </div>
 
     <!-- Linha divisória -->

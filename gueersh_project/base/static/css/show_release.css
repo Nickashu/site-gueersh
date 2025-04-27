@@ -1,0 +1,59 @@
+body {
+    background-color: black;
+    color: #fffd61;
+    font-family: 'Arial', sans-serif;
+}
+
+.lancamento-container {
+    display: flex;
+    padding: 40px;
+    gap: 40px;
+    width: 75%;
+}
+
+.coluna-esquerda {
+    flex: 1;
+}
+
+.coluna-direita {
+    flex: 2;
+}
+
+.div-img-album{
+    display: flex;
+    align-items: center;
+}
+
+.img-lancamento {
+    border-radius: 8px;
+    width: 80%;
+    max-width: 400px;
+    height: auto;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.creditos {
+    margin-top: 20px;
+    color: #fffd61;
+}
+
+.nome-banda {
+    font-weight: bold;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.nome-lancamento {
+    font-size: 1.4rem;
+    font-weight: normal;
+}
+
+.data-lancamento {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-bottom: 20px;
+    border-top: 1.8px solid white;
+    padding-bottom: 5px;
+    text-align: right;
+}

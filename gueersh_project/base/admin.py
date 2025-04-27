@@ -15,6 +15,10 @@ admin.site.register(Concert)
 
 admin.site.register(Contact)
 
+admin.site.register(Release)
+
+admin.site.register(ReleaseCredits)
+
 admin.site.register(BandSocialNetwork)
 
 admin.site.register(BandFeitioProfile)

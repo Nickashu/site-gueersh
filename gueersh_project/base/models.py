@@ -2,10 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
-# Create your models here.
-
-#Model para usuário personalizado:
-class FeitioProfile(models.Model):
+class FeitioProfile(models.Model):    #Model para usuário personalizado
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE, related_name='feitio_profile')
     bio = models.TextField(blank=True, null=True)
     profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
@@ -17,7 +14,7 @@ class FeitioProfile(models.Model):
         verbose_name = _('Feitio Profile')
         verbose_name_plural = _('Feitio Profiles')
 
-class SocialNetwork(models.Model):
+class SocialNetwork(models.Model):     #Model que vai armazenar as redes sociais disponíveis
     name = models.CharField(max_length=50)
     html_icon = models.CharField(max_length=100, help_text="Ex: <i class='bi bi-instagram'></i>")
 
@@ -28,7 +25,7 @@ class SocialNetwork(models.Model):
         verbose_name = _('Social Network')
         verbose_name_plural = _('Social Networks')
 
-class Band(models.Model):
+class Band(models.Model):    #Model para informações de bandas
     name = models.CharField(max_length=200, blank=False, null=False)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='bands/', blank=True, null=True)
@@ -78,11 +75,43 @@ class Contact(models.Model):    #Model para informações de contato das bandas
     email = models.EmailField()
 
     def __str__(self):
-        return f"{self.role} - {self.name}"
+        return f"{self.band.name}: {self.role} - {self.name}"
     
     class Meta:
         verbose_name = _('Contact')
         verbose_name_plural = _('Contacts')
+        
+        
+class Release(models.Model):    #Model para informações de lançamentos das bandas
+    band = models.ForeignKey(Band, on_delete=models.CASCADE, related_name='releases')    #Uma banda pode ter vários lançamentos
+    title = models.CharField(max_length=100, blank=False, null=False)
+    image = models.ImageField(upload_to='releases/', blank=True, null=True)
+    release_date = models.DateField(blank=False, null=False)
+    description = models.TextField(blank=False, null=False)
+    video_link = models.URLField(blank=True, null=True)
+    spotify_link = models.URLField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.band.name} - {self.title}"
+    
+    class Meta:
+        verbose_name = _('Release')
+        verbose_name_plural = _('Releases')
+
+class ReleaseCredits(models.Model):    #Model para informações de créditos dos lançamentos
+    release = models.ForeignKey(Release, on_delete=models.CASCADE, related_name='credits')    #Um lançamento pode ter vários créditos
+    role = models.CharField(max_length=100, blank=False, null=False)  #Ex: Produção, Mixagem, Masterização...
+    crew = models.TextField(blank=False, null=False)    #Equipe responsável pela função
+
+    def __str__(self):
+        return f"{self.release.title} - {self.role}"
+    
+    class Meta:
+        verbose_name = _('Release Credit')
+        verbose_name_plural = _('Release Credits')
+
+
 
 #Tabelas de relação:
 class BandSocialNetwork(models.Model):

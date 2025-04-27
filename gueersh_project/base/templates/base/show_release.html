@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Lançamentos - Feitio{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/show_release.css' %}">
+<div class="lancamento-container">
+  <div class="coluna-esquerda">
+      <div class="div-img-album">
+        <img src="{{ release.image.url }}" alt="Capa do lançamento: {{ release.name }}" class="img-lancamento">
+      </div>
+      <span class="titulo-ouvir txt-destaque">Ouvir</span>
+
+      {% if release.spotify_link %}
+        <iframe style="border-radius:12px" src="{{ release.spotify_link }}" width="100%" height="152" frameBorder="0" allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      {% endif %}
+      {% if release.video_link %}
+        <iframe width="100%" height="300" src="{{ release.video_link }}" frameborder="0" allowfullscreen></iframe>
+      {% endif %}
+
+      <div class="creditos">
+          <span class="titulo-creditos txt-destaque">Créditos</span>
+          {% for credit in release_credits %}
+            <p><strong>{{ credit.role }}:</strong><br>{% for name in credit.crew %} {{ name }}<br> {% endfor %}</p>
+          {% endfor %}
+      </div>
+  </div>
+
+  <div class="coluna-direita">
+      <h2 class="nome-banda">{{ release.band.name }}<br><span class="nome-lancamento">{{ release.title }}</span></h2>
+      <p class="data-lancamento">data de lançamento: {{ release.release_date }}</p>
+      {% for description_part in custom_description %}
+        <p>{{ description_part }}</p>
+      {% endfor %}
+  </div>
+</div>
+
+<script>
+    
+    var description = "{{release.description|safe}}";
+    console.log(description);
+</script>
+{% endblock %}

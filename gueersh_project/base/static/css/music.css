@@ -1,3 +1,18 @@
+h2{
+    font-weight: bold;
+}
+
+.div-ultimos-lancamentos img{
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px gray;
+    max-width: 60% !important;
+}
+
+.div-ultimos-lancamentos a{
+    text-decoration: none;
+}
+
+
 .section-bandas{
     display: flex;
     justify-content: center;

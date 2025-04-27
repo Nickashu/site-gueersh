@@ -27,11 +27,18 @@
                         {{ user.username|default:"Conta" }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
-                        <li><a class="dropdown-item" href="#">Configurações da conta</a></li>
                         <li><a class="dropdown-item" href="#">Perfil</a></li>
                         <li><a class="dropdown-item" href="#">Notificações</a></li>
-                        <li><a class="dropdown-item" href="#">Meus Grupos</a></li>
+                        {% if user.is_superuser %}
+                            <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
+                        {% endif %}
                         <li><hr class="dropdown-divider"></li>
+                        {% if user.feitio_profile.bands %}
+                            {% for band in user.feitio_profile.bands.all %}
+                                <li><a class="dropdown-item" href="{% url 'show_band' band.pk %}">{{ band.name }}</a></li>
+                            {% endfor %}
+                            <li><hr class="dropdown-divider"></li>
+                        {% endif %}
                         <li><a class="dropdown-item" href="{% url 'account_logout' %}">Sair</a></li>
                     </ul>
                 </div>

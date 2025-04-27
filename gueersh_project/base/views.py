@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 import logging
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from .models import Band, Contact, Tour, Concert, BandSocialNetwork, BandFeitioProfile
+from .models import Band, Contact, Tour, Concert, BandSocialNetwork, Release, ReleaseCredits
 
 logging.basicConfig(level=logging.INFO)
 
@@ -16,7 +16,11 @@ def about(request):
 
 def music(request):
     bands = Band.objects.all()
-    context = {'bands': bands}
+    last_releases = Release.objects.order_by('created_at')[:2]
+    context = {
+        'bands': bands,
+        'last_releases': last_releases,
+    }
     return render(request, 'base/music.html', context)
 
 def show_band(request, band_id):
@@ -55,3 +59,21 @@ def show_band(request, band_id):
         'social_networks': social_networks,
     }
     return render(request, 'base/show_band.html', context)
+
+
+def show_release(request, release_id):
+    release = get_object_or_404(Release, id=release_id)
+    custom_description = release.description.split('\n')
+    release_credits = []
+    for release_credit in ReleaseCredits.objects.filter(release=release):
+        credit = {}
+        credit['role'] = release_credit.role
+        credit['crew'] = release_credit.crew.split('\n')
+        release_credits.append(credit)
+    
+    context = {
+        'release': release,
+        'custom_description': custom_description,
+        'release_credits': release_credits,
+    }
+    return render(request, 'base/show_release.html', context)
