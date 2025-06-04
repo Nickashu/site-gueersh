@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     #'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
+    
+    'django_summernote',   #Editor de texto enriquecido
 ]
 
 SITE_ID = 1
@@ -169,3 +171,25 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_REDIRECT_URL = '/'  # URL para redirecionar após o login
 LOGOUT_REDIRECT_URL = '/'  # URL para redirecionar após o logout
+
+
+#Configurações do Summernote:
+SUMMERNOTE_CONFIG = {
+    'iframe': True,
+    'summernote': {
+        'toolbar': [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['table', ['table']],
+            ['insert', ['picture', 'link', 'video', 'hr']],
+            ['view', ['fullscreen', 'codeview', 'help']],
+        ],
+        'width': '100%',
+        'height': '400px',
+    }
+}

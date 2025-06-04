@@ -2,12 +2,15 @@ from django.shortcuts import render, get_object_or_404, redirect
 import logging
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from .models import Band, Contact, Tour, Concert, BandSocialNetwork, Release, ReleaseCredits
+from .models import Band, Contact, Tour, Concert, BandSocialNetwork, Release, ReleaseCredits, FeitioProfile, Post
+from django.contrib.auth.decorators import user_passes_test
+from .forms import PostForm
 
 logging.basicConfig(level=logging.INFO)
 
 def home(request):
-    context = {}
+    posts = get_posts()
+    context = { 'posts': posts }
     return render(request, 'base/home.html', context)
 
 def about(request):
@@ -77,3 +80,55 @@ def show_release(request, release_id):
         'release_credits': release_credits,
     }
     return render(request, 'base/show_release.html', context)
+
+
+@login_required
+def show_profile(request, username):
+    profile = get_object_or_404(FeitioProfile, user__username=username)
+    is_owner = (request.user == profile.user)
+
+    context = {
+        'profile': profile,
+        'is_owner': is_owner,
+    }
+    return render(request, 'base/show_profile.html', context)
+
+
+
+
+#Posts:
+def is_staff_user(user):
+    return user.is_authenticated and user.is_staff
+
+@user_passes_test(is_staff_user)
+def create_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            return redirect('home')
+    else:
+        form = PostForm()
+    
+    return render(request, 'base/posts/create_post.html', {'form': form})
+
+
+def show_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    custom_content = post.content.split('\n')
+    context = {
+        'post': post,
+        'custom_content': custom_content,
+    }
+    return render(request, 'base/posts/show_post.html', context)
+
+
+
+
+
+#Métodos auxiliares:
+
+def get_posts():
+    return Post.objects.all().order_by('-created_at')

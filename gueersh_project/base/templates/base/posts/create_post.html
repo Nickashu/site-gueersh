@@ -1,0 +1,17 @@
+{% extends '../base.html' %}
+{% load static %}
+{{ form.as_p }}
+{{ form.media }}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/posts/create_post.css' %}">
+
+  <div class="container mt-5">
+    <h2>Criar novo post</h2>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form|safe }}
+      <button type="submit" class="btn btn-primary mt-3">Publicar</button>
+    </form>
+  </div>
+{% endblock %}

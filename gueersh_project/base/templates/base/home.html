@@ -6,4 +6,24 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 <h1>Timeline</h1>
+<div class="post-lista">
+  {% for post in posts %}
+    <div class="post-item">
+      <div class="post-imagem">
+        <a href="{% url 'show_post' post.id %}" class="post-link-img">
+          <img src="{{ post.main_image.url }}" alt="{{ post.title }}">
+        </a>
+      </div>
+      <div class="post-conteudo">
+        <div class="post-meta">
+          <span class="data">{{ post.created_at|date:"j \d\e M \d\e Y" }}</span>
+        </div>
+        <a href="{% url 'show_post' post.id %}" class="post-link-txt">
+          <h2 class="titulo-post">{{ post.title }}</h2>
+          <p class="resumo">{{ post.main_description }}</p>
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
 {% endblock %}

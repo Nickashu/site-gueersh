@@ -44,6 +44,11 @@ body {
     }
 }
 
+.area-login img{
+    max-width: 40px;
+    border-radius: 100px;
+}
+
 
 .menu-vertical {
     display: flex;

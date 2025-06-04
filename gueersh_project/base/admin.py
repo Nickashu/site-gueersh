@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import *
+from django_summernote.admin import SummernoteModelAdmin
 
 # Register your models here.
 
@@ -18,6 +19,13 @@ admin.site.register(Contact)
 admin.site.register(Release)
 
 admin.site.register(ReleaseCredits)
+
+class PostAdmin(SummernoteModelAdmin):
+    summernote_fields = ('content',)
+
+admin.site.register(Post, PostAdmin)
+
+
 
 admin.site.register(BandSocialNetwork)
 

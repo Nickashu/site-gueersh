@@ -1,0 +1,74 @@
+body {
+    background-color: #000;
+    color: #FFD700;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #111;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #333;
+}
+
+h2 {
+    color: #FFD700;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+label {
+    color: #FFD700;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+input[type="text"],
+textarea,
+input[type="file"],
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin-top: 5px;
+    background-color: #222;
+    color: #fff;
+}
+
+input[type="file"] {
+    background-color: transparent;
+}
+
+button.btn-primary {
+    background-color: #1e90ff;
+    border: none;
+    padding: 12px 25px;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+button.btn-primary:hover {
+    background-color: #63b3ed;
+}
+
+/* Summernote custom */
+.note-editor.note-frame {
+    background-color: #fff;
+    color: #000;
+    border-radius: 8px;
+}
+
+.note-toolbar {
+    background-color: #f3f3f3;
+}
+
+.note-editable {
+    background-color: #fff;
+    color: #000;
+    padding: 15px;
+    min-height: 300px;
+}

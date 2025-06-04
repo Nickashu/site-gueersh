@@ -23,12 +23,14 @@
         <div class="area-login">
             {% if user.is_authenticated %}
                 <div class="dropdown">
+                    {% if user.feitio_profile.profile_image %}
+                        <img src="{{ user.feitio_profile.profile_image.url }}" alt="Imagem de perfil" class="imagem-perfil">
+                    {% endif %}
                     <button class="btn btn-dark dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         {{ user.username|default:"Conta" }}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
-                        <li><a class="dropdown-item" href="#">Perfil</a></li>
-                        <li><a class="dropdown-item" href="#">Notificações</a></li>
+                        <li><a class="dropdown-item" href="{% url 'show_profile' user.username %}">Perfil</a></li>
                         {% if user.is_superuser %}
                             <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
                         {% endif %}
@@ -37,6 +39,10 @@
                             {% for band in user.feitio_profile.bands.all %}
                                 <li><a class="dropdown-item" href="{% url 'show_band' band.pk %}">{{ band.name }}</a></li>
                             {% endfor %}
+                            <li><hr class="dropdown-divider"></li>
+                        {% endif %}
+                        {% if user.is_staff %}
+                            <li><a class="dropdown-item" href="{% url 'create_post' %}">Criar Post</a></li>
                             <li><hr class="dropdown-divider"></li>
                         {% endif %}
                         <li><a class="dropdown-item" href="{% url 'account_logout' %}">Sair</a></li>

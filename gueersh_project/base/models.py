@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 class FeitioProfile(models.Model):    #Model para usuário personalizado
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE, related_name='feitio_profile')
     bio = models.TextField(blank=True, null=True)
-    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    #profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
 
     def __str__(self):
         return self.user.username
@@ -110,6 +110,26 @@ class ReleaseCredits(models.Model):    #Model para informações de créditos do
     class Meta:
         verbose_name = _('Release Credit')
         verbose_name_plural = _('Release Credits')
+
+
+class Post(models.Model):    #Model para informações de posts das bandas
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')    #Um usuário pode ter zero ou vários posts
+    title = models.CharField(max_length=100, blank=False, null=False)     #Título do post
+    main_image = models.ImageField(upload_to='posts/', blank=True, null=True)   #Imagem principal do post (que aparece na listagem)
+    main_description = models.TextField(blank=False, null=False)   #Descrição principal do post (que aparece na listagem)
+    content = models.TextField(blank=False, null=False)   #Conteúdo do post
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title}"
+    
+    class Meta:
+        verbose_name = _('Post')
+        verbose_name_plural = _('Posts')
+    
+    def delete(self, *args, **kwargs):
+        self.main_image.delete()
+        super(Post, self).delete(*args, **kwargs)
 
 
 

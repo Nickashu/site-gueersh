@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Profile - Feitio{% endblock %}
+
+{% block content %}
+<div class="tab-content bg-black text-warning p-4">
+    <div class="tab-pane fade show active" id="profile">
+    <h3 class="fw-bold">Perfil</h3>
+    <p>Perfil criado em: {{ user.date_joined }}</p>
+    <button class="btn btn-outline-danger mt-2">
+        <i class="bi bi-pencil"></i> Editar perfil
+    </button>
+</div> 
+{% endblock %}
