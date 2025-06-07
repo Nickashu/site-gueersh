@@ -1,0 +1,21 @@
+.note-editor {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.note-toolbar {
+    background-color: #222;
+    border-radius: 8px;
+}
+
+.note-editable {
+    background-color: #111;
+    color: #FFD700;
+    font-size: 16px;
+    padding: 20px;
+}
+
+.note-btn {
+    color: #FFD700 !important;
+    border: none !important;
+    background: #333 !important;
+}

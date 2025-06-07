@@ -16,9 +16,9 @@
             <div class="col-md-4 text-center mb-4">
                 <a href="{% url 'show_release' release.pk %}" class="btn-release">
                     <img src="{{ release.image.url }}" class="img-fluid mb-3" alt="Brita">
-                    <h5 class="fw-bold text-warning">{{ release.band.name }}</h5>
-                    <p class="text-warning">{{ release.title }}</p>
                 </a>
+                <h5 class="fw-bold text-warning">{{ release.band.name }}</h5>
+                <p class="text-warning">{{ release.title }}</p>
             </div>
         {% endfor %}
     </div>
