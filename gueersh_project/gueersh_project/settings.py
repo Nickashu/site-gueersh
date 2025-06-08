@@ -177,6 +177,17 @@ ACCOUNT_LOGOUT_ON_GET = True    # Permite logout via GET request (não precisa t
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 ACCOUNT_LOGIN_METHODS = {'username', 'email'}  # Método de autenticação (pode ser username, email ou ambos)
 
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"   #Faz com que o email precise ser verificado antes de permitir o login
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True  #Confirma ao clicar no link, sem botão extra
+ACCOUNT_SESSION_REMEMBER = False #Desabilita a opção de lembrar a sessão (não armazena cookies de sessão) 
+ACCOUNT_UNIQUE_EMAIL = True  #Garante que o email seja único (não pode haver dois usuários com o mesmo email)
+#ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 0.0007  #Teste rápido de expiração do email de confirmação (1 minuto)
+
+#Formulários personalizados:
+ACCOUNT_FORMS = {
+    'signup': 'base.forms.CustomSignupForm',  # ajuste para seu app
+}
+
 
 #Configurações do Summernote:
 SUMMERNOTE_CONFIG = {

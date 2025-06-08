@@ -1,0 +1,12 @@
+Olá {{ user.username }}!
+
+Bem-vindo ao {{ current_site.name }}.
+
+Para confirmar seu e-mail e ativar sua conta, clique no link abaixo:
+
+{{ activate_url }}
+
+Se você não se cadastrou, ignore esta mensagem.
+
+Abraços,  
+Equipe {{ current_site.name }}

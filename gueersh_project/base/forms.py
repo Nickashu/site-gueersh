@@ -1,6 +1,9 @@
 from django import forms
 from django_summernote.widgets import SummernoteWidget
 from .models import Post, Band, BandSocialNetwork, Release
+from allauth.account.forms import SignupForm
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 
 
 # Formulário para o model Post:
@@ -51,3 +54,15 @@ class ReleaseForm(forms.ModelForm):
                 self.add_error('image', 'Você deve enviar uma imagem para o lançamento.')
 
             return cleaned_data
+        
+        
+
+#Sobrescrevendo o formulário para o registro de usuários:
+User = get_user_model()
+class CustomSignupForm(SignupForm):
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email__iexact=email).exists():
+            raise ValidationError("Já existe uma conta com este endereço de e-mail.")
+        return email
+

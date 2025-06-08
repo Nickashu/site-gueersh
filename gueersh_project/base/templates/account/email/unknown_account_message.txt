@@ -1,0 +1,11 @@
+Olá,
+
+Recebemos uma solicitação para redefinir a senha associada a este endereço de e-mail.
+
+No entanto, nenhum usuário está registrado com este endereço em {{ current_site.name }}.
+
+Se quiser, você pode se cadastrar aqui:
+{{ signup_url }}
+
+Atenciosamente,  
+Equipe {{ current_site.name }}
