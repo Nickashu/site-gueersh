@@ -1,10 +1,11 @@
-{% extends 'base/base.html' %}
+{% extends '../base.html' %}
 {% load static %}
 
 {% block title %}{{band.name}} - Feitio{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/show_band.css' %}">
+<script src="{% static 'js/band/show_band.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/band/show_band.css' %}">
 
 <div class="container-banda">
     <div class="coluna-esquerda">
@@ -21,12 +22,24 @@
 
         <!-- Botão Redes Sociais -->
         <div class="social-networks">
-            <div class="txt-destaque">Redes Sociais</div>
+            <div class="div-btn-social-networks">
+                <div class="txt-destaque">Redes Sociais</div>
+                {% if user.is_staff %}
+                    <button class="btn-destaque btn-edit" style="display: none;">Edit</button>
+                    <a class="btn-destaque btn-add" href="{% url 'add_social_network' band.id %}" style="display: none;">Add</a>
+                    <button class="btn-destaque btn-cancel" style="display: none;">Cancel</button>
+                {% endif %}
+            </div>
             <div class="div-social-networks">
                 {% for social_network in social_networks %}
-                    <a href="{{ social_network.link }}" target="_blank">
-                        {{ social_network.html_icon|safe }}
-                    </a>
+                    <div class="social-network">
+                        <a href="{{ social_network.link }}" target="_blank">
+                            {{ social_network.html_icon|safe }}
+                        </a>
+                        {% if user.is_staff %}
+                            <a class="btn-destaque btn-delete" href="#" style="display: none;">X</a>
+                        {% endif %}
+                    </div>
                 {% endfor %}
             </div>
         </div>

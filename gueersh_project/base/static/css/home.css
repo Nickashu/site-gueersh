@@ -7,20 +7,20 @@
 
 .post-item {
     display: flex;
-    gap: 2em;
+    gap: 1em;
     justify-content: center;
     background-color: #000;
     padding-bottom: 40px;
 }
 
 .post-imagem{
+    text-align: center;
     flex: 0 0 40%;
 }
 
 .post-imagem img {
-    width: 100%;
-    min-height: 300px;
-    max-height: 400px;
+    min-height: 200px;
+    max-height: 300px;
     border-radius: 8px;
     object-fit: cover;
 }

@@ -4,10 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .models import Band, Contact, Tour, Concert, BandSocialNetwork, Release, ReleaseCredits, FeitioProfile, Post
 from django.contrib.auth.decorators import user_passes_test
-from .forms import PostForm
+from .forms import PostForm, BandForm, BandSocialNetworkForm, ReleaseForm
 
 logging.basicConfig(level=logging.INFO)
 
+#Páginas principais:
 def home(request):
     posts = get_posts()
     context = { 'posts': posts }
@@ -26,6 +27,8 @@ def music(request):
     }
     return render(request, 'base/music.html', context)
 
+
+#Páginas de detalhes:
 def show_band(request, band_id):
     band = get_object_or_404(Band, id=band_id)
     band_contacts = Contact.objects.filter(band=band)
@@ -61,7 +64,7 @@ def show_band(request, band_id):
         'tours': tours,
         'social_networks': social_networks,
     }
-    return render(request, 'base/show_band.html', context)
+    return render(request, 'base/band/show_band.html', context)
 
 
 def show_release(request, release_id):
@@ -79,7 +82,17 @@ def show_release(request, release_id):
         'custom_description': custom_description,
         'release_credits': release_credits,
     }
-    return render(request, 'base/show_release.html', context)
+    return render(request, 'base/release/show_release.html', context)
+
+
+def show_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    custom_content = post.content.split('\n')
+    context = {
+        'post': post,
+        'custom_content': custom_content,
+    }
+    return render(request, 'base/post/show_post.html', context)
 
 
 @login_required
@@ -91,12 +104,10 @@ def show_profile(request, username):
         'profile': profile,
         'is_owner': is_owner,
     }
-    return render(request, 'base/show_profile.html', context)
+    return render(request, 'base/profile/show_profile.html', context)
 
 
-
-
-#Posts:
+#Páginas de criação:
 def is_staff_user(user):
     return user.is_authenticated and user.is_staff
 
@@ -112,23 +123,63 @@ def create_post(request):
     else:
         form = PostForm()
     
-    return render(request, 'base/posts/create_post.html', {'form': form})
+    return render(request, 'base/post/create_post.html', {'form': form})
 
 
-def show_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    custom_content = post.content.split('\n')
-    context = {
-        'post': post,
-        'custom_content': custom_content,
-    }
-    return render(request, 'base/posts/show_post.html', context)
+@user_passes_test(is_staff_user)
+def create_band(request):
+    if request.method == 'POST':
+        form = BandForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            
+            return redirect('home')
+    else:
+        form = BandForm()
+
+    return render(request, 'base/band/create_band.html', {'form': form})
 
 
+@login_required
+def add_social_network(request, band_id):
+    band = get_object_or_404(Band, id=band_id)
+
+    #Precisa ser staff ou membro da banda
+    if not request.user.is_staff and request.user.feitio_profile not in band.members.all():
+        return redirect('show_band', pk=band.id)
+
+    if request.method == 'POST':
+        form = BandSocialNetworkForm(request.POST)
+        if form.is_valid():
+            band_social = form.save(commit=False)
+            band_social.band = band
+            band_social.save()
+            return redirect('show_band', band_id=band.id)
+    else:
+        form = BandSocialNetworkForm()
+
+    return render(request, 'base/band/add_social_network.html', {
+        'form': form,
+        'band': band
+    })
+
+
+@user_passes_test(is_staff_user)
+def create_release(request):
+    if request.method == 'POST':
+        form = ReleaseForm(request.POST, request.FILES)
+        if form.is_valid():
+            release = form.save()
+            #messages.success(request, "Lançamento criado com sucesso.")
+            return redirect('show_release', release_id=release.id)
+    else:
+        form = ReleaseForm()
+
+    return render(request, 'base/release/create_release.html', {'form': form})
 
 
 
 #Métodos auxiliares:
-
 def get_posts():
     return Post.objects.all().order_by('-created_at')

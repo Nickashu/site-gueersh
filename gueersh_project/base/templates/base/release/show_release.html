@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends '../base.html' %}
 {% load static %}
 
 {% block title %}Lançamentos - Feitio{% endblock %}
@@ -8,7 +8,9 @@
 <div class="lancamento-container">
   <div class="coluna-esquerda">
       <div class="div-img-album">
-        <img src="{{ release.image.url }}" alt="Capa do lançamento: {{ release.name }}" class="img-lancamento">
+        {% if release.image.url %}
+          <img src="{{ release.image.url }}" alt="Capa do lançamento: {{ release.name }}" class="img-lancamento">
+        {% endif %}
       </div>
       <span class="titulo-ouvir txt-destaque">Ouvir</span>
 

@@ -16,7 +16,7 @@ class FeitioProfile(models.Model):    #Model para usuário personalizado
 
 class SocialNetwork(models.Model):     #Model que vai armazenar as redes sociais disponíveis
     name = models.CharField(max_length=50)
-    html_icon = models.CharField(max_length=100, help_text="Ex: <i class='bi bi-instagram'></i>")
+    html_icon = models.CharField(max_length=100, help_text="Ex: i class='bi bi-instagram'> i")
 
     def __str__(self):
         return f"{self.name}"
@@ -85,7 +85,7 @@ class Contact(models.Model):    #Model para informações de contato das bandas
 class Release(models.Model):    #Model para informações de lançamentos das bandas
     band = models.ForeignKey(Band, on_delete=models.CASCADE, related_name='releases')    #Uma banda pode ter vários lançamentos
     title = models.CharField(max_length=100, blank=False, null=False)
-    image = models.ImageField(upload_to='releases/', blank=True, null=True)
+    image = models.ImageField(upload_to='releases/', blank=False, null=False)  #Imagem do lançamento (capa do álbum, single, etc.)
     release_date = models.DateField(blank=False, null=False)
     description = models.TextField(blank=False, null=False)
     video_link = models.URLField(blank=True, null=True)

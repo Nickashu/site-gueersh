@@ -51,26 +51,14 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
+    #'allauth.socialaccount',
     #'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
+    #'allauth.socialaccount.providers.google',
     
     'django_summernote',   #Editor de texto enriquecido
 ]
 
 SITE_ID = 1
-
-SOCIALACCOUNT_PROVIDERS = {
-    "google": {
-        "SCOPE": [
-            "profile",
-            "email",
-        ],
-        "AUTH_PARAMS": {
-            "access_type": "online",
-        },
-    }
-}
 
 
 MIDDLEWARE = [
@@ -92,7 +80,6 @@ ROOT_URLCONF = 'gueersh_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -169,7 +156,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -183,8 +169,13 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+
+#Configurações do Django Allauth:
 LOGIN_REDIRECT_URL = '/'  # URL para redirecionar após o login
 LOGOUT_REDIRECT_URL = '/'  # URL para redirecionar após o logout
+ACCOUNT_LOGOUT_ON_GET = True    # Permite logout via GET request (não precisa ter página de logout)
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+ACCOUNT_LOGIN_METHODS = {'username', 'email'}  # Método de autenticação (pode ser username, email ou ambos)
 
 
 #Configurações do Summernote:

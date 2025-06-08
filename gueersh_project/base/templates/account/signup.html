@@ -1,4 +1,4 @@
-{% extends "account/base_entrance.html" %}
+{% extends '../base/base.html' %}
 {% load allauth i18n %}
 {% block head_title %}
     {% trans "Signup" %}
@@ -13,9 +13,6 @@
         {% setvar end_link %}
         </a>
     {% endsetvar %}
-    {% element p %}
-        {% blocktranslate %}Already have an account? Then please {{ link }}sign in{{ end_link }}.{% endblocktranslate %}
-    {% endelement %}
     {% if not SOCIALACCOUNT_ONLY %}
         {% url 'account_signup' as action_url %}
         {% element form form=form method="post" action=action_url tags="entrance,signup" %}
@@ -38,8 +35,5 @@
         {% element button href=signup_by_passkey_url tags="prominent,signup,outline,primary" %}
             {% trans "Sign up using a passkey" %}
         {% endelement %}
-    {% endif %}
-    {% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
     {% endif %}
 {% endblock content %}

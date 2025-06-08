@@ -141,3 +141,23 @@ body {
     border: 1px solid #fffd61;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+.btn-destaque{
+    border-radius: 5px;
+    background-color: #fffd61;
+    padding: 0px 3px;
+    font-weight: bold;
+    display: inline-block;
+    border: 1px solid black;
+    text-decoration: none;
+    color: black;
+    margin-bottom: 5px;
+}
+.btn-destaque:hover{
+    opacity: 0.6;
+    transition: opacity 0.3s ease, color 0.3s ease;
+}
+.btn-delete{
+    background-color: transparent;
+    color: red !important;
+}

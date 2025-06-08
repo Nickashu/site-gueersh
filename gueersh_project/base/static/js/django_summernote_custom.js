@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  // Inicialização customizada ou plugin
-  console.log('JS custom do Summernote carregado!');
-
+    // Inicialização customizada ou plugin
+    console.log('JS custom do Summernote carregado!');
+/*
     $('#summernote').summernote({
         popover: {
             image: [
@@ -17,4 +17,5 @@ $(document).ready(function () {
             captionText:'{Default Caption Editable Placeholder Text if Title or Alt are empty}'
         }
     });
+*/
 });
