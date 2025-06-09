@@ -9,6 +9,7 @@ urlpatterns = [
     path('band/<int:band_id>/', views.show_band, name='show_band'),
     path('create_band/', views.create_band, name='create_band'),
     path('band/<int:band_id>/add-social/', views.add_social_network, name='add_social_network'),
+    path('band/<int:band_id>/remove-social/<int:social_id>', views.remove_social_network, name='remove_social_network'),
     
     path('release/<int:release_id>/', views.show_release, name='show_release'),
     path('create_release/', views.create_release, name='create_release'),
@@ -17,4 +18,6 @@ urlpatterns = [
     
     path('posts/<int:post_id>/', views.show_post, name='show_post'),
     path('create_post/', views.create_post, name='create_post'),
+    
+    path("newsletter/subscribe/", views.newsletter_subscription, name='newsletter_subscription'),
 ]

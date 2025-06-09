@@ -37,7 +37,7 @@
                             {{ social_network.html_icon|safe }}
                         </a>
                         {% if user.is_staff %}
-                            <a class="btn-destaque btn-delete" href="#" style="display: none;">X</a>
+                            <a class="btn-destaque btn-delete" href="{% url 'remove_social_network' band_id=band.id social_id=social_network.id|safe %}" style="display: none;">X</a>
                         {% endif %}
                     </div>
                 {% endfor %}

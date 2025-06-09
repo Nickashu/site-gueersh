@@ -1,9 +1,10 @@
 from django import forms
 from django_summernote.widgets import SummernoteWidget
-from .models import Post, Band, BandSocialNetwork, Release
+from .models import Post, Band, BandSocialNetwork, Release, NewsletterSubscriber
 from allauth.account.forms import SignupForm
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from crispy_forms.helper import FormHelper
 
 
 # Formulário para o model Post:
@@ -20,6 +21,15 @@ class BandForm(forms.ModelForm):
     class Meta:
         model = Band
         fields = ['name', 'description', 'image', 'video_link', 'spotify_link']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.fields['name'].widget.attrs.update({'placeholder': 'Nome da banda'})
+        self.fields['description'].widget.attrs.update({'placeholder': 'Descrição da banda'})
+        self.fields['video_link'].widget.attrs.update({'placeholder': 'https://...'})
+        self.fields['spotify_link'].widget.attrs.update({'placeholder': 'https://...'})
 
 
 
@@ -36,8 +46,6 @@ class BandSocialNetworkForm(forms.ModelForm):
             self.fields['link'].required = True
 
 
-
-
 class ReleaseForm(forms.ModelForm):
     class Meta:
         model = Release
@@ -46,15 +54,27 @@ class ReleaseForm(forms.ModelForm):
             'release_date': forms.DateInput(attrs={'type': 'date'}),
             'description': forms.Textarea(attrs={'rows': 5}),
         }
-        
-        def clean(self):
-            cleaned_data = super().clean()
-            image = cleaned_data.get('image')
-            if not image:
-                self.add_error('image', 'Você deve enviar uma imagem para o lançamento.')
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.fields['title'].widget.attrs.update({'placeholder': 'Título do lançamento'})
+        self.fields['description'].widget.attrs.update({'placeholder': 'Descrição do lançamento'})
+        self.fields['video_link'].widget.attrs.update({'placeholder': 'https://...'})
+        self.fields['spotify_link'].widget.attrs.update({'placeholder': 'https://...'})
 
-            return cleaned_data
-        
+
+class NewsletterSubscriberForm(forms.ModelForm):
+    class Meta:
+        model = NewsletterSubscriber
+        fields = ['email']
+        widgets = {
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Digite seu e-mail...'
+            })
+        }
         
 
 #Sobrescrevendo o formulário para o registro de usuários:

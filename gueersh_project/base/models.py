@@ -132,6 +132,17 @@ class Post(models.Model):    #Model para informações de posts das bandas
         super(Post, self).delete(*args, **kwargs)
 
 
+class NewsletterSubscriber(models.Model):
+    email = models.EmailField(null=False, blank=False)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
+    
+    class Meta:
+        verbose_name = _('Newsletter Subscriber')
+        verbose_name_plural = _('Newsletter Subscribers')
+
 
 #Tabelas de relação:
 class BandSocialNetwork(models.Model):

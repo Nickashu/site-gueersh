@@ -25,6 +25,8 @@ class PostAdmin(SummernoteModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 
+admin.site.register(NewsletterSubscriber)
+
 
 
 admin.site.register(BandSocialNetwork)

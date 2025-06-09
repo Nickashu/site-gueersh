@@ -90,43 +90,6 @@ body {
     justify-content: center;
 }
 
-.footer {
-    background-color: rgb(255, 251, 128);
-    text-align: center;
-    padding: 1rem;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    color: black;
-}
-
-.footer .footer-texto{
-    margin: 0;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.footer .footer-links{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-left: 1rem;
-}
-
-.instagram-button {
-    color: black;
-    font-size: 1.5rem;
-    text-decoration: none;
-}
-
-.instagram-button:hover {
-    color: #e1306c; /* rosa instagram */
-}
-
 .txt-destaque{
     border-radius: 5px;
     background-color: #fffd61;
@@ -162,4 +125,98 @@ body {
 .btn-delete{
     background-color: transparent;
     color: red !important;
+}
+
+
+.asteriskField{
+    display: none;
+}
+
+
+
+
+
+
+.footer {
+    background-color: rgb(255, 251, 128);
+    text-align: center;
+    padding: 1rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+    gap: 1em;
+}
+.footer-content{
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer .footer-texto{
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.footer .footer-links{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-left: 1rem;
+}
+.instagram-button {
+    color: black;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+.instagram-button:hover {
+    color: #e1306c; /* rosa instagram */
+}
+
+.newsletter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+}
+.newsletter-box {
+    background-color: #000;
+    color: #FFD700; 
+    border-radius: 8px;
+    padding: 10px;
+    width: 50%;
+}
+
+.newsletter-box h5 {
+    font-weight: bold;
+}
+
+.newsletter-input {
+    background-color: #fff;
+    border: 1px solid #FFD700;
+    border-radius: 0;
+    color: #000;
+}
+
+.newsletter-input:invalid {
+    border-color: red;
+}
+
+.newsletter-button {
+    border: 1px solid #FFD700;
+    color: red;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.newsletter-button:hover {
+    background-color: #FFD700;
+    color: #000;
 }

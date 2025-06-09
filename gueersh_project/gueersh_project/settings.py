@@ -55,8 +55,16 @@ INSTALLED_APPS = [
     #'allauth.socialaccount.providers.facebook',
     #'allauth.socialaccount.providers.google',
     
-    'django_summernote',   #Editor de texto enriquecido
+    'django_summernote',   #Editor de texto enriquecido para os posts
+    
+    'crispy_forms',  #Para formulários mais bonitos e funcionais
+    'crispy_bootstrap5',  #Para usar o Bootstrap 5 com o Crispy Forms
 ]
+
+#Configurações do Crispy Forms:
+CRISPY_ALLOWED_TEMPLATE_PACKS = ("bootstrap5",)
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
 
 SITE_ID = 1
 
@@ -71,6 +79,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
     "allauth.account.middleware.AccountMiddleware",
+
+    'base.middleware.ClearMessagesInAdminMiddleware',   #Middleware personalizado para limpar mensagens no admin
 ]
 
 
