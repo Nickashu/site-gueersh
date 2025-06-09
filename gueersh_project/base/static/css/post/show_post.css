@@ -1,3 +1,9 @@
+/* === CONTEÚDO DO POST === */
+.post-content {
+  line-height: 1.7;
+  font-size: 1.05em;
+  color: #eee;
+}
 .post-detalhe {
   max-width: 800px;
   margin: 50px auto;
@@ -17,14 +23,6 @@
   margin-bottom: 20px;
 }
 
-.imagem-principal {
-  width: 100%;
-  max-height: 400px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
 .resumo p {
   font-style: italic;
   margin-bottom: 30px;
@@ -34,9 +32,49 @@
 .conteudo {
   background-color: #111;
   padding: 20px;
-  border-radius: 10px;
 }
 
 .conteudo p {
     color: #FFD700 !important;
+}
+
+/* === IMAGENS COM LEGENDA CENTRALIZADAS === */
+.image-block {
+  display: block;
+  margin: 2em auto;
+  text-align: center;
+}
+
+.image-block img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.caption {
+  font-size: 0.85em;
+  color: #ccc;
+  margin-top: 0.5em;
+  font-style: italic;
+  text-align: center;
+}
+
+/* === IMAGEM E TEXTO LADO A LADO === */
+.image-text-side {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+  margin: 2em 0;
+}
+
+.image-text-side img {
+  max-width: 300px;
+  height: auto;
+  border-radius: 6px;
+}
+
+.image-text-side div {
+  flex: 1;
+  min-width: 250px;
 }

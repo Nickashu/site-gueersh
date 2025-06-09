@@ -122,7 +122,10 @@ def create_post(request):
             post = form.save(commit=False)
             post.user = request.user
             post.save()
+            messages.success(request, "Postagem criada com sucesso.")
             return redirect('home')
+        else:
+            messages.error(request, "Erro ao criar postagem. Tente novamente.")
     else:
         form = PostForm()
     

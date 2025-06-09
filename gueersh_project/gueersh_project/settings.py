@@ -201,7 +201,7 @@ ACCOUNT_FORMS = {
 
 #Configurações do Summernote:
 SUMMERNOTE_CONFIG = {
-    'iframe': False,
+    'iframe': True,
     'summernote': {
         'toolbar': [
             ['style', ['style']],
@@ -216,8 +216,6 @@ SUMMERNOTE_CONFIG = {
             ['view', ['fullscreen', 'codeview', 'help']],
         ],
         'width': '100%',
-        'height': '400px',
+        'height': '500px',
     },
-    'js': ('/static/js/django_summernote_custom.js',),
-    'css': ('/static/css/django_summernote_custom.css',),
 }
