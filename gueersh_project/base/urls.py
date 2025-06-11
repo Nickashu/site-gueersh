@@ -17,6 +17,8 @@ urlpatterns = [
     path('profile/<str:username>/', views.show_profile, name='show_profile'),
     
     path('posts/<int:post_id>/', views.show_post, name='show_post'),
+    path('posts/<int:post_id>/editar/', views.edit_post, name='edit_post'),
+    path('post/<int:post_id>/excluir/', views.delete_post, name='delete_post'),
     path('create_post/', views.create_post, name='create_post'),
     
     path("newsletter/subscribe/", views.newsletter_subscription, name='newsletter_subscription'),

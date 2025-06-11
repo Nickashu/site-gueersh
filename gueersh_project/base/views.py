@@ -10,6 +10,9 @@ from allauth.account.models import EmailAddress
 
 logging.basicConfig(level=logging.INFO)
 
+def is_staff_user(user):
+    return user.is_authenticated and user.is_staff
+
 #Páginas principais:
 def home(request):
     posts = get_posts()
@@ -30,7 +33,7 @@ def music(request):
     return render(request, 'base/music.html', context)
 
 
-#Páginas de detalhes:
+#Bandas:
 def show_band(request, band_id):
     band = get_object_or_404(Band, id=band_id)
     band_contacts = Contact.objects.filter(band=band)
@@ -69,7 +72,22 @@ def show_band(request, band_id):
     }
     return render(request, 'base/band/show_band.html', context)
 
+@user_passes_test(is_staff_user)
+def create_band(request):
+    if request.method == 'POST':
+        form = BandForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            messages.success(request, "Banda criada com sucesso.")
+            return redirect('home')
+    else:
+        form = BandForm()
 
+    return render(request, 'base/band/create_band.html', {'form': form})
+
+
+#Lançamentos:
 def show_release(request, release_id):
     release = get_object_or_404(Release, id=release_id)
     custom_description = release.description.split('\n')
@@ -87,17 +105,21 @@ def show_release(request, release_id):
     }
     return render(request, 'base/release/show_release.html', context)
 
+@user_passes_test(is_staff_user)
+def create_release(request):
+    if request.method == 'POST':
+        form = ReleaseForm(request.POST, request.FILES)
+        if form.is_valid():
+            release = form.save()
+            messages.success(request, "Lançamento criado com sucesso.")
+            return redirect('show_release', release_id=release.id)
+    else:
+        form = ReleaseForm()
 
-def show_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    custom_content = post.content.split('\n')
-    context = {
-        'post': post,
-        'custom_content': custom_content,
-    }
-    return render(request, 'base/post/show_post.html', context)
+    return render(request, 'base/release/create_release.html', {'form': form})
 
 
+#Perfil do usuário:
 @login_required
 def show_profile(request, username):
     profile = get_object_or_404(FeitioProfile, user__username=username)
@@ -110,49 +132,12 @@ def show_profile(request, username):
     return render(request, 'base/profile/show_profile.html', context)
 
 
-#Páginas de criação:
-def is_staff_user(user):
-    return user.is_authenticated and user.is_staff
-
-@user_passes_test(is_staff_user)
-def create_post(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.user = request.user
-            post.save()
-            messages.success(request, "Postagem criada com sucesso.")
-            return redirect('home')
-        else:
-            messages.error(request, "Erro ao criar postagem. Tente novamente.")
-    else:
-        form = PostForm()
-    
-    return render(request, 'base/post/create_post.html', {'form': form})
-
-
-@user_passes_test(is_staff_user)
-def create_band(request):
-    if request.method == 'POST':
-        form = BandForm(request.POST, request.FILES)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.save()
-            messages.success(request, "Banda criada com sucesso.")
-            return redirect('home')
-    else:
-        form = BandForm()
-
-    return render(request, 'base/band/create_band.html', {'form': form})
-
-
+#Redes sociais da banda:
 @login_required
 def add_social_network(request, band_id):
     band = get_object_or_404(Band, id=band_id)
 
-    #Precisa ser staff ou membro da banda
-    if not request.user.is_staff and request.user.feitio_profile not in band.members.all():
+    if not request.user.is_staff and request.user.feitio_profile not in band.members.all():   #Precisa ser staff ou membro da banda
         messages.error(request, "Você não tem permissão para adicionar redes sociais a esta banda.")
         return redirect('show_band', band_id=band.id)
 
@@ -177,8 +162,7 @@ def remove_social_network(request, band_id, social_id):
     band = get_object_or_404(Band, id=band_id)
     social = get_object_or_404(SocialNetwork, id=social_id)
 
-    #Precisa ser staff ou membro da banda
-    if not request.user.is_staff and request.user.feitio_profile not in band.members.all():
+    if not request.user.is_staff and request.user.feitio_profile not in band.members.all():   #Precisa ser staff ou membro da banda
         messages.error(request, "Você não tem permissão para remover redes sociais desta banda.")
         return redirect('show_band', band_id=band.id)
 
@@ -188,21 +172,7 @@ def remove_social_network(request, band_id, social_id):
     return redirect('show_band', band_id=band.id)
 
 
-@user_passes_test(is_staff_user)
-def create_release(request):
-    if request.method == 'POST':
-        form = ReleaseForm(request.POST, request.FILES)
-        if form.is_valid():
-            release = form.save()
-            messages.success(request, "Lançamento criado com sucesso.")
-            return redirect('show_release', release_id=release.id)
-    else:
-        form = ReleaseForm()
-
-    return render(request, 'base/release/create_release.html', {'form': form})
-
-
-#Inscrição na newsletter:
+#Newsletter:
 def newsletter_subscription(request):
     if request.method == "POST" and request.headers.get("x-requested-with") == "XMLHttpRequest":
         form = NewsletterSubscriberForm(request.POST)
@@ -238,6 +208,69 @@ def newsletter_subscription(request):
         "status": "danger",
         "message": "Requisição inválida."
     })
+
+
+#Posts:
+def show_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    custom_content = post.content.split('\n')
+    context = {
+        'post': post,
+        'custom_content': custom_content,
+    }
+    return render(request, 'base/post/show_post.html', context)
+
+@user_passes_test(is_staff_user)
+def create_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            messages.success(request, "Postagem criada com sucesso.")
+            return redirect('home')
+        else:
+            messages.error(request, "Erro ao criar postagem. Tente novamente.")
+    else:
+        form = PostForm()
+    
+    return render(request, 'base/post/create_post.html', {'form': form})
+
+@login_required
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+
+    if not (request.user.is_staff or request.user == post.author):
+        messages.error(request, "Você não tem permissão para realizar esta ação.")
+        return redirect('show_post', post_id=post.pk)
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Postagem editada com sucesso.")
+            return redirect('show_post', post_id=post.pk)
+    else:
+        form = PostForm(instance=post)
+
+    return render(request, 'base/post/edit_post.html', {'form': form, 'post': post})
+
+
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+
+    if not (request.user.is_staff or request.user == post.author):
+        messages.error(request, "Você não tem permissão para realizar esta ação.")
+        return redirect('show_post', post_id=post.pk)
+
+    if request.method == 'POST':
+        post.delete()
+        messages.success(request, "Postagem excluída com sucesso.")
+        return redirect('home')
+    return redirect('show_post', post_id=post.pk)
+
 
 
 #Métodos auxiliares:

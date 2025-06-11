@@ -113,9 +113,9 @@ class ReleaseCredits(models.Model):    #Model para informações de créditos do
 
 
 class Post(models.Model):    #Model para informações de posts das bandas
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')    #Um usuário pode ter zero ou vários posts
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')    #Um usuário pode ter zero ou vários posts
     title = models.CharField(max_length=200, blank=False, null=False)     #Título do post
-    main_image = models.ImageField(upload_to='posts/', blank=True, null=True)   #Imagem principal do post (que aparece na listagem)
+    main_image = models.ImageField(upload_to='posts/', blank=False, null=False)   #Imagem principal do post (que aparece na listagem)
     main_description = models.TextField(blank=False, null=False)   #Descrição principal do post (que aparece na listagem)
     content = models.TextField(blank=False, null=False)   #Conteúdo do post
     created_at = models.DateTimeField(auto_now_add=True)

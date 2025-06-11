@@ -25,9 +25,9 @@
             <div class="div-btn-social-networks">
                 <div class="txt-destaque">Redes Sociais</div>
                 {% if user.is_staff %}
-                    <button class="btn-destaque btn-edit" style="display: none;">Edit</button>
-                    <a class="btn-destaque btn-add" href="{% url 'add_social_network' band.id %}" style="display: none;">Add</a>
-                    <button class="btn-destaque btn-cancel" style="display: none;">Cancel</button>
+                    <button class="btn-edit btn btn-warning" style="display: none;">Edit</button>
+                    <a class="btn-add btn btn-info" href="{% url 'add_social_network' band.id %}" style="display: none;">Add</a>
+                    <button class="btn-cancel btn btn-danger" style="display: none;">Cancel</button>
                 {% endif %}
             </div>
             <div class="div-social-networks">

@@ -1,0 +1,17 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}Edição de Post - Feitio{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/post/create_post.css' %}">
+
+    <div class="container mt-5">
+        <h2>Editando post: {{ post.title }}</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary mt-3">Salvar alterações</button>
+        </form>
+    </div>
+{% endblock %}

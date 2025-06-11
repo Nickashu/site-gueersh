@@ -20,7 +20,12 @@
 .meta {
   font-size: 0.9em;
   color: #ccc;
-  margin-bottom: 20px;
+}
+
+.author-btns{
+  display: flex;
+  gap: 1em;
+  align-items: center;
 }
 
 .resumo p {
