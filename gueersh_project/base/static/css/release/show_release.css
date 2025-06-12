@@ -11,6 +11,15 @@ body {
     width: 75%;
 }
 
+.btns-lancamento{
+    display: flex;
+    gap: 1em;
+    width: 100%;
+    padding-left: 1em;
+    padding-right: 1em;
+    justify-content: end;
+}
+
 .coluna-esquerda {
     flex: 1;
 }

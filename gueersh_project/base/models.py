@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
+import uuid
 
 class FeitioProfile(models.Model):    #Model para usuário personalizado
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE, related_name='feitio_profile')
@@ -28,12 +29,15 @@ class SocialNetwork(models.Model):     #Model que vai armazenar as redes sociais
 class Band(models.Model):    #Model para informações de bandas
     name = models.CharField(max_length=200, blank=False, null=False)
     description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='bands/', blank=True, null=True)
+    image = models.ImageField(upload_to='bands/', blank=False, null=False)
     video_link = models.URLField(blank=True, null=True)
     spotify_link = models.URLField(blank=True, null=True)
     social_networks = models.ManyToManyField(SocialNetwork, through='BandSocialNetwork', related_name='bands')
     members = models.ManyToManyField(FeitioProfile, through='BandFeitioProfile', related_name='bands')
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    published_at = models.DateTimeField(null=True, blank=True)  #Data de publicação (é feito manualmente pelo admin)
+    email_sent = models.BooleanField(default=False)             #Indica se o email de notificação foi enviado para os assinantes da newsletter
 
     def __str__(self):
         return f"{self.name}"
@@ -91,6 +95,9 @@ class Release(models.Model):    #Model para informações de lançamentos das ba
     video_link = models.URLField(blank=True, null=True)
     spotify_link = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    published_at = models.DateTimeField(null=True, blank=True)  #Data de publicação (é feito manualmente pelo admin)
+    email_sent = models.BooleanField(default=False)             #Indica se o email de notificação foi enviado para os assinantes da newsletter
 
     def __str__(self):
         return f"{self.band.name} - {self.title}"
@@ -119,6 +126,9 @@ class Post(models.Model):    #Model para informações de posts das bandas
     main_description = models.TextField(blank=False, null=False)   #Descrição principal do post (que aparece na listagem)
     content = models.TextField(blank=False, null=False)   #Conteúdo do post
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    published_at = models.DateTimeField(null=True, blank=True)  #Data de publicação (é feito manualmente pelo admin)
+    email_sent = models.BooleanField(default=False)             #Indica se o email de notificação foi enviado para os assinantes da newsletter
 
     def __str__(self):
         return f"{self.title}"
@@ -133,7 +143,8 @@ class Post(models.Model):    #Model para informações de posts das bandas
 
 
 class NewsletterSubscriber(models.Model):
-    email = models.EmailField(null=False, blank=False)
+    email = models.EmailField(unique=True, null=False, blank=False)
+    unsubscribe_token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)   #Token para cancelar a inscrição
     subscribed_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from django.contrib import messages
 
 load_dotenv()  # loads the configs from .env
 
@@ -219,3 +220,15 @@ SUMMERNOTE_CONFIG = {
         'height': '500px',
     },
 }
+
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',  # transforma 'error' em 'danger'
+}
+
+#Configurações de email
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+
+#Configurações do site
+SITE_URL = os.getenv("SITE_URL", "http://localhost:8000")  # URL do site, usada para links em emails
+

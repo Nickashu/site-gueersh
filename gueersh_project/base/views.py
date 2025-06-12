@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 import logging
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.conf import settings
-from .models import Band, Contact, Tour, Concert, BandSocialNetwork, Release, ReleaseCredits, FeitioProfile, Post, SocialNetwork, NewsletterSubscriber
+from .models import Band, Contact, Tour, Concert, BandSocialNetwork, Release, ReleaseCredits, FeitioProfile, Post, SocialNetwork, NewsletterSubscriber, BandFeitioProfile
 from .forms import PostForm, BandForm, BandSocialNetworkForm, ReleaseForm, NewsletterSubscriberForm
 from django.contrib import messages
 from django.http import JsonResponse
@@ -39,6 +39,8 @@ def show_band(request, band_id):
     band_contacts = Contact.objects.filter(band=band)
     band_tours = Tour.objects.filter(band=band)
     tours = []
+    band_members = Band.objects.get(id=band_id).members.all()   #Obtém os membros da banda através do relacionamento ManyToMany com FeitioProfile
+    
     for band_tour in band_tours:
         tour = {}
         tour['year'] = band_tour.year
@@ -66,6 +68,7 @@ def show_band(request, band_id):
 
     context = {
         'band': band,
+        'band_members': band_members,
         'contacts': band_contacts,
         'tours': tours,
         'social_networks': social_networks,
@@ -74,6 +77,9 @@ def show_band(request, band_id):
 
 @user_passes_test(is_staff_user)
 def create_band(request):
+    if not (request.user.is_staff):
+        return redirect('home')
+    
     if request.method == 'POST':
         form = BandForm(request.POST, request.FILES)
         if form.is_valid():
@@ -86,11 +92,46 @@ def create_band(request):
 
     return render(request, 'base/band/create_band.html', {'form': form})
 
+@login_required
+def edit_band(request, band_id):
+    band = get_object_or_404(Band, pk=band_id)
+
+    if not (request.user.is_staff or request.user.feitio_profile in band.members.all()):
+        messages.error(request, "Você não tem permissão para realizar esta ação.")
+        return redirect('show_band', band_id=band.pk)
+
+    if request.method == 'POST':
+        form = BandForm(request.POST, request.FILES, instance=band)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Banda editada com sucesso.")
+            return redirect('show_band', band_id=band.pk)
+    else:
+        form = BandForm(instance=band)
+
+    return render(request, 'base/band/edit_band.html', {'form': form, 'band': band})
+
+
+@login_required
+def delete_band(request, band_id):
+    band = get_object_or_404(Band, pk=band_id)
+
+    if not (request.user.is_staff or request.user.feitio_profile in band.members.all()):
+        messages.error(request, "Você não tem permissão para realizar esta ação.")
+        return redirect('show_band', band_id=band.pk)
+
+    if request.method == 'POST':
+        band.delete()
+        messages.success(request, "Banda excluída com sucesso.")
+        return redirect('home')
+    return redirect('show_band', band_id=band.pk)
+
 
 #Lançamentos:
 def show_release(request, release_id):
     release = get_object_or_404(Release, id=release_id)
     custom_description = release.description.split('\n')
+    allowed_members = release.band.members.all()   #Membros da banda que poderão editar e excluir o lançamento
     release_credits = []
     for release_credit in ReleaseCredits.objects.filter(release=release):
         credit = {}
@@ -102,11 +143,15 @@ def show_release(request, release_id):
         'release': release,
         'custom_description': custom_description,
         'release_credits': release_credits,
+        'allowed_members': allowed_members,
     }
     return render(request, 'base/release/show_release.html', context)
 
 @user_passes_test(is_staff_user)
 def create_release(request):
+    if not (request.user.is_staff):
+        return redirect('home')
+    
     if request.method == 'POST':
         form = ReleaseForm(request.POST, request.FILES)
         if form.is_valid():
@@ -117,6 +162,40 @@ def create_release(request):
         form = ReleaseForm()
 
     return render(request, 'base/release/create_release.html', {'form': form})
+
+@login_required
+def edit_release(request, release_id):
+    release = get_object_or_404(Release, pk=release_id)
+
+    if not (request.user.is_staff or request.user.feitio_profile in release.band.members.all()):
+        messages.error(request, "Você não tem permissão para realizar esta ação.")
+        return redirect('show_release', release_id=release.pk)
+
+    if request.method == 'POST':
+        form = ReleaseForm(request.POST, request.FILES, instance=release)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Lançamento editado com sucesso.")
+            return redirect('show_release', release_id=release.pk)
+    else:
+        form = ReleaseForm(instance=release)
+
+    return render(request, 'base/release/edit_release.html', {'form': form, 'release': release})
+
+
+@login_required
+def delete_release(request, release_id):
+    release = get_object_or_404(Release, pk=release_id)
+
+    if not (request.user.is_staff or request.user.feitio_profile in release.band.members.all()):
+        messages.error(request, "Você não tem permissão para realizar esta ação.")
+        return redirect('show_release', release_id=release.pk)
+
+    if request.method == 'POST':
+        release.delete()
+        messages.success(request, "Lançamento excluído com sucesso.")
+        return redirect('home')
+    return redirect('show_release', release_id=release.pk)
 
 
 #Perfil do usuário:
@@ -183,7 +262,7 @@ def newsletter_subscription(request):
             if not EmailAddress.objects.filter(email__iexact=email, verified=True).exists():
                 return JsonResponse({
                     "status": "danger",
-                    "message": "Este e-mail ainda não está cadastrado no sistema ou ainda não foi validado."
+                    "message": "Este e-mail não está cadastrado no sistema ou ainda não foi validado."
                 })
 
             #Verifica se o email informado já está inscrito na newsletter:
@@ -209,6 +288,13 @@ def newsletter_subscription(request):
         "message": "Requisição inválida."
     })
 
+def newsletter_unsubscription(request, token):
+    subscriber = get_object_or_404(NewsletterSubscriber, unsubscribe_token=token)
+
+    subscriber.delete()
+    messages.success(request, "Você foi removido da newsletter com sucesso.")
+    return redirect('home')
+
 
 #Posts:
 def show_post(request, post_id):
@@ -222,6 +308,9 @@ def show_post(request, post_id):
 
 @user_passes_test(is_staff_user)
 def create_post(request):
+    if not (request.user.is_staff):
+        return redirect('home')
+    
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():

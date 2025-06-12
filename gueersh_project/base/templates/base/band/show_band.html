@@ -7,6 +7,15 @@
 <script src="{% static 'js/band/show_band.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/band/show_band.css' %}">
 
+{% if user.is_staff or user.feitio_profile in band_members %}
+    <div class="btns-banda"> 
+        <a class="btn btn-warning" href="{% url 'edit_band' band.pk %}">Editar banda</a>
+        <form method="POST" action="{% url 'delete_band' band.pk %}" style="display: inline;" onsubmit="return confirmarExclusao()">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Excluir banda</button>
+        </form>
+    </div>
+{% endif %}
 <div class="container-banda">
     <div class="coluna-esquerda">
         <!-- Foto da banda -->
@@ -91,6 +100,8 @@
 <script>
     var social_networks = {{social_networks|safe}};
     var tours = "{{tours|safe}}";
+    var members = "{{band_members|safe}}";
+    //console.log("membros: ", members);
     //console.log(tours);
     //console.log("dasdldajads");
 </script>

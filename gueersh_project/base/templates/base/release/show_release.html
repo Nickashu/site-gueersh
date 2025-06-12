@@ -4,7 +4,18 @@
 {% block title %}Lançamentos - Feitio{% endblock %}
 
 {% block content %}
+<script src="{% static 'js/release/show_release.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/release/show_release.css' %}">
+
+{% if user.is_staff or user.feitio_profile in allowed_members %}
+    <div class="btns-lancamento"> 
+        <a class="btn btn-warning" href="{% url 'edit_release' release.pk %}">Editar lançamento</a>
+        <form method="POST" action="{% url 'delete_release' release.pk %}" style="display: inline;" onsubmit="return confirmarExclusao()">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Excluir lançamento</button>
+        </form>
+    </div>
+{% endif %}
 <div class="lancamento-container">
   <div class="coluna-esquerda">
       <div class="div-img-album">

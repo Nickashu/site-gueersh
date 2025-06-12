@@ -8,7 +8,10 @@ admin.site.register(FeitioProfile)
 
 admin.site.register(SocialNetwork)
 
-admin.site.register(Band)
+@admin.register(Band)
+class BandAdmin(admin.ModelAdmin):
+    readonly_fields = ['email_sent']
+#admin.site.register(Band)
 
 admin.site.register(Tour)
 
@@ -16,12 +19,16 @@ admin.site.register(Concert)
 
 admin.site.register(Contact)
 
-admin.site.register(Release)
+@admin.register(Release)
+class ReleaseAdmin(admin.ModelAdmin):
+    readonly_fields = ['email_sent']
+#admin.site.register(Release)
 
 admin.site.register(ReleaseCredits)
 
 class PostAdmin(SummernoteModelAdmin):
     summernote_fields = ('content',)
+    readonly_fields = ['email_sent']
 
 admin.site.register(Post, PostAdmin)
 
