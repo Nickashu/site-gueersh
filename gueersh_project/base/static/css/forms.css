@@ -55,7 +55,7 @@ input[type="file"] {
     background-color: transparent;
 }
 
-a{
+a.return{
     color: var(--cor-destaque);
     font-weight: bold;
     text-decoration: none;

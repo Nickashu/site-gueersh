@@ -11,10 +11,12 @@ django-crispy-forms==2.4
 django-js-asset==3.1.2
 django-summernote==0.8.20.0
 dotenv==0.9.9
+gunicorn==23.0.0
 idna==3.10
 oauthlib==3.2.2
-pillow==11.2.1
-psycopg2-binary==2.9.10
+packaging==25.0
+pillow
+psycopg2-binary
 pycparser==2.22
 PyJWT==2.10.1
 python-dotenv==1.1.0
