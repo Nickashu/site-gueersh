@@ -20,7 +20,7 @@
     flex-direction: column;
     align-items: baseline;
     row-gap: 1em;
-    width: 50%;
+    flex: 1.5;
 }
 
 .coluna-direita{
@@ -28,7 +28,7 @@
     flex-direction: column;
     align-items: center;
     row-gap: 1em;
-    width: 50%;
+    flex: 2;
 }
 
 .div-band-img img{
@@ -75,4 +75,39 @@
 }
 .turne-lista p{
     margin: 0;
+}
+
+
+@media (max-width: 768px) {
+  .container-banda {
+    flex-direction: column;
+    width: 90%;
+    gap: 2em;
+    padding: 1em;
+  }
+
+  .coluna-esquerda,
+  .coluna-direita {
+    width: 100%;
+    align-items: center;
+  }
+
+  .div-band-img img {
+    max-width: 100%;
+  }
+
+  .btns-banda {
+    justify-content: center;
+    align-items: stretch;
+    padding: 1em;
+  }
+  .btns-banda button, .btns-banda a{
+    font-size: 12px;
+  }
+
+  .div-social-networks {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 1em;
+  }
 }

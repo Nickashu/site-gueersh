@@ -5,10 +5,13 @@
 {% block title %}{{band.name}}Criação de Lançamento{% endblock %}
 
 {% block content %}
-  <h2>Novo lançamento</h2>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit" class="btn btn-primary mt-3">Criar lançamento</button>
-  </form>
+  <link rel="stylesheet" href="{% static 'css/bpr_forms.css' %}">
+  <div class="container mt-5">
+    <h2>Novo lançamento</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-primary mt-3">Criar lançamento</button>
+    </form>
+  </div>
 {% endblock %}

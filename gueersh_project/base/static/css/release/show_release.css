@@ -21,11 +21,11 @@ body {
 }
 
 .coluna-esquerda {
-    flex: 1;
+    flex: 1.9;
 }
 
 .coluna-direita {
-    flex: 2;
+    flex: 1.8;
 }
 
 .div-img-album{
@@ -69,4 +69,37 @@ body {
     border-top: 1.8px solid white;
     padding-bottom: 5px;
     text-align: right;
+}
+
+
+
+@media (max-width: 800px) {
+  .lancamento-container {
+    flex-direction: column-reverse;
+    width: 90%;
+    padding: 20px;
+  }
+
+  .coluna-esquerda,
+  .coluna-direita {
+    width: 100%;
+  }
+
+  .data-lancamento {
+    text-align: left;
+  }
+
+  .img-lancamento {
+    width: 100%;
+    max-width: none;
+  }
+
+  .btns-lancamento {
+    justify-content: center;
+    align-items: stretch;
+    padding: 1em;
+  }
+  .btns-lancamento button, .btns-lancamento a{
+    font-size: 12px;
+  }
 }

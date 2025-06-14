@@ -7,25 +7,21 @@
 <script src="{% static 'js/post/show_post.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/post/show_post.css' %}">
 <div class="post-detalhe">
+  {% if user.is_staff or user == post.author %}
+    <div class="btns-post">
+      <a class="btn btn-warning" href="{% url 'edit_post' post.pk %}">Editar Post</a>
+      <form method="POST" action="{% url 'delete_post' post.pk %}" style="display: inline;" onsubmit="return confirmarExclusao()">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Excluir post</button>
+      </form>
+    </div>
+  {% endif %}
   <div class="post-header">
     <div class="author-btns">
       <div class="meta">
         <span>{{ post.author.username }}</span> •
         <span>{{ post.created_at|date:"j \d\e M \d\e Y" }}</span>
       </div>
-      {% if user.is_authenticated and user.is_staff %}
-        <a class="btn btn-warning" href="{% url 'edit_post' post.pk %}">Editar Post</a>
-        <form method="POST" action="{% url 'delete_post' post.pk %}" style="display: inline;" onsubmit="return confirmarExclusao()">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-danger">Excluir post</button>
-        </form>
-      {% elif user.is_authenticated and user == post.author %}
-        <a class="btn btn-warning" href="{% url 'edit_post' post.pk %}">Editar Post</a>
-        <form method="POST" action="{% url 'delete_post' post.pk %}" style="display: inline;" onsubmit="return confirmarExclusao()">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-danger">Excluir post</button>
-        </form>
-      {% endif %}
     </div>
     <h1 class="titulo">{{ post.title }}</h1>
   </div>

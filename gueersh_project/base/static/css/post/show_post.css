@@ -1,24 +1,18 @@
 /* === CONTEÚDO DO POST === */
 .post-content {
-  line-height: 1.7;
-  font-size: 1.05em;
   color: #eee;
+  line-height: 1.7;
+  font-size: 0.8em;
 }
 .post-detalhe {
-  max-width: 800px;
-  margin: 50px auto;
-  padding: 20px;
   color: #FFD700;
 }
 
 .post-header h1 {
-  font-size: 2.5em;
-  margin-bottom: 10px;
   color: #FFD700;
 }
 
 .meta {
-  font-size: 0.9em;
   color: #ccc;
 }
 
@@ -30,7 +24,6 @@
 
 .resumo p {
   font-style: italic;
-  margin-bottom: 30px;
   color: #ccc;
 }
 
@@ -51,13 +44,11 @@
 }
 
 .image-block img {
-  max-width: 100%;
   height: auto;
   border-radius: 6px;
 }
 
 .caption {
-  font-size: 0.85em;
   color: #ccc;
   margin-top: 0.5em;
   font-style: italic;
@@ -74,12 +65,83 @@
 }
 
 .image-text-side img {
-  max-width: 300px;
   height: auto;
   border-radius: 6px;
 }
 
 .image-text-side div {
   flex: 1;
-  min-width: 250px;
+}
+
+
+@media (min-width: 600px) {
+  .post-detalhe {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+  }
+
+  .post-header h1 {
+    margin-bottom: 10px;
+  }
+
+  .resumo p {
+    margin-bottom: 30px;
+  }
+
+  .image-block img {
+    max-width: 100%;
+  }
+
+  .caption {
+    font-size: 0.5em;
+  }
+
+  .image-text-side div {
+    min-width: 250px;
+  }
+}
+
+@media (max-width: 600px) {
+  .btns-post button, .btns-post a{
+    font-size: 12px;
+  }
+
+  .post-content {
+    line-height: 1.7;
+    font-size: 0.6em;
+  }
+  .post-detalhe {
+    max-width: 800px;
+    margin: 50px auto;
+  }
+
+  .post-header h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+
+  .meta {
+    font-size: 0.7em;
+  }
+
+  .resumo p {
+    margin-bottom: 30px;
+  }
+
+  .image-block img {
+    max-width: 100%;
+  }
+
+  .caption {
+    font-size: 0.5em;
+  }
+
+  .image-text-side img {
+    width: 200px;
+  }
+
+  .image-text-side div {
+    min-width: 250px;
+  }
 }

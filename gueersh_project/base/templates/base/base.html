@@ -2,6 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Página Inicial{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,106 +13,105 @@
     <script src="{% static 'js/base.js' %}"></script>
 </head>
 <body>
+    <div class="site-wrapper">
+        <!-- Header fixo no topo -->
+        <header class="header">
+            <nav class="menu-vertical">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'music' %}">Música</a>
+                <a href="{% url 'about' %}">Sobre</a>
+            </nav>
+            <div class="div-logo-header">
+                <img src="{% static 'img/logo.png' %}" alt="Logo do selo" class="logo-header">
+            </div>
+            <div class="area-login">
+                {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        {% if user.feitio_profile.profile_image %}
+                            <img src="{{ user.feitio_profile.profile_image.url }}" alt="Imagem de perfil" class="imagem-perfil">
+                        {% endif %}
+                        <button class="btn btn-dark dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ user.username|default:"Conta" }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
+                            <li><a class="dropdown-item" href="{% url 'show_profile' user.username %}">Perfil</a></li>
+                            {% if user.is_superuser %}
+                                <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
+                            {% endif %}
+                            <li><hr class="dropdown-divider"></li>
+                            {% if user.feitio_profile.bands %}
+                                {% for band in user.feitio_profile.bands.all %}
+                                    <li><a class="dropdown-item" href="{% url 'show_band' band.slug %}">{{ band.name }}</a></li>
+                                {% endfor %}
+                                <li><hr class="dropdown-divider"></li>
+                            {% endif %}
+                            {% if user.is_staff %}
+                                <li><a class="dropdown-item" href="{% url 'create_band' %}">Criar Banda</a></li>
+                                <li><a class="dropdown-item" href="{% url 'create_release' %}">Criar Lançamento</a></li>
+                                <li><a class="dropdown-item" href="{% url 'create_post' %}">Criar Post</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="{% url 'account_logout' %}">Sair</a></li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="btn btn-dark">Entrar</a>
+                {% endif %}
+            </div>
+        </header>
 
-    <!-- Header fixo no topo -->
-    <header class="header">
-        <nav class="menu-vertical">
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'music' %}">Música</a>
-            <a href="{% url 'about' %}">Sobre</a>
-        </nav>
-        <div class="div-logo-header">
-            <img src="{% static 'img/logo.png' %}" alt="Logo do selo" class="logo-header">
+        <!-- Conteúdo que muda -->
+        <main class="conteudo">
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Toasts para mensagens -->
+        <div id="toast-container"
+            class="position-fixed top-0 end-0 p-3"
+            style="z-index: 9999;"
+            data-messages='[
+            {% for message in messages %}
+                {"text": "{{ message|escapejs }}", "tags": "{{ message.tags }}"}{% if not forloop.last %},{% endif %}
+            {% endfor %}
+            ]'>
         </div>
-        <div class="area-login">
-            {% if user.is_authenticated %}
-                <div class="dropdown">
-                    {% if user.feitio_profile.profile_image %}
-                        <img src="{{ user.feitio_profile.profile_image.url }}" alt="Imagem de perfil" class="imagem-perfil">
-                    {% endif %}
-                    <button class="btn btn-dark dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ user.username|default:"Conta" }}
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
-                        <li><a class="dropdown-item" href="{% url 'show_profile' user.username %}">Perfil</a></li>
-                        {% if user.is_superuser %}
-                            <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
-                        {% endif %}
-                        <li><hr class="dropdown-divider"></li>
-                        {% if user.feitio_profile.bands %}
-                            {% for band in user.feitio_profile.bands.all %}
-                                <li><a class="dropdown-item" href="{% url 'show_band' band.slug %}">{{ band.name }}</a></li>
-                            {% endfor %}
-                            <li><hr class="dropdown-divider"></li>
-                        {% endif %}
-                        {% if user.is_staff %}
-                            <li><a class="dropdown-item" href="{% url 'create_band' %}">Criar Banda</a></li>
-                            <li><a class="dropdown-item" href="{% url 'create_release' %}">Criar Lançamento</a></li>
-                            <li><a class="dropdown-item" href="{% url 'create_post' %}">Criar Post</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                        {% endif %}
-                        <li><a class="dropdown-item" href="{% url 'account_logout' %}">Sair</a></li>
-                    </ul>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="newsletter">
+                <div class="newsletter-box">
+                    <h5 class="mb-3">Assine nossa newsletter</h5>
+                    <form id="newsletter-form" class="row g-2 align-items-end" data-url="{% url 'newsletter_subscription' %}">
+                        {% csrf_token %}
+                        <div class="col-md-8">
+                            <input type="email" name="email" class="form-control newsletter-input" id="input_email" placeholder="Digite seu e-mail..." autocomplete="email" required>
+                        </div>
+
+                        <div class="col-md-4">
+                            <button type="submit" class="btn newsletter-button w-100">Assinar</button>
+                        </div>
+                        <div id="newsletter-feedback" class="mt-2"></div>
+                    </form>
                 </div>
-            {% else %}
-                <a href="{% url 'account_login' %}" class="btn btn-primary">Entrar</a>
-            {% endif %}
-        </div>
-    </header>
-
-    <!-- Conteúdo que muda -->
-    <main class="conteudo">
-        {% block content %}{% endblock %}
-    </main>
-
-    <!-- Toasts para mensagens -->
-    <div id="toast-container"
-        class="position-fixed top-0 end-0 p-3"
-        style="z-index: 9999;"
-        data-messages='[
-        {% for message in messages %}
-            {"text": "{{ message|escapejs }}", "tags": "{{ message.tags }}"}{% if not forloop.last %},{% endif %}
-        {% endfor %}
-        ]'>
+            </div>
+            <div class="footer-content">
+                <div class="footer-texto">
+                    <p style="margin: 0; font-size: 0.9em;">&copy; 2023 Feitio. Todos os direitos reservados.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-instagram">
+                        <a href="https://instagram.com/gueersh" target="_blank" class="instagram-button">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                    <div class="footer-logo-banda">
+                        <a href="#" target="_blank" class="logo-banda-button">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="newsletter">
-            <div class="newsletter-box">
-                <h5 class="mb-3">Assine nossa newsletter</h5>
-                <form id="newsletter-form" class="row g-2 align-items-end" data-url="{% url 'newsletter_subscription' %}">
-                    {% csrf_token %}
-                    <div class="col-md-8">
-                        <input type="email" name="email" class="form-control newsletter-input" id="input_email" placeholder="Digite seu e-mail..." autocomplete="email" required>
-                    </div>
-
-                    <div class="col-md-4">
-                        <button type="submit" class="btn newsletter-button w-100">Assinar</button>
-                    </div>
-                    <div id="newsletter-feedback" class="mt-2"></div>
-                </form>
-            </div>
-        </div>
-        <div class="footer-content">
-            <div class="footer-texto">
-                <p style="margin: 0; font-size: 0.9em;">&copy; 2023 Feitio. Todos os direitos reservados.</p>
-            </div>
-            <div class="footer-links">
-                <div class="footer-instagram">
-                    <a href="https://instagram.com/gueersh" target="_blank" class="instagram-button">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </div>
-                <div class="footer-logo-banda">
-                    <a href="#" target="_blank" class="logo-banda-button">
-                        <i class="fab fa-facebook"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    {% block javascript %}{% endblock %}
 </body>
 </html>

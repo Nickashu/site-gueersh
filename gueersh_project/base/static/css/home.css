@@ -1,58 +1,138 @@
+@import url('variables.css');
+
 .post-lista {
   display: flex;
   flex-direction: column;
-  gap: 60px;
   padding: 30px;
 }
 
 .post-item {
-    display: flex;
-    gap: 1em;
-    justify-content: center;
-    background-color: #000;
-    padding-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  background-color: #000;
 }
 
 .post-imagem img {
-    height: 250px;
-    border-radius: 8px;
-    object-fit: cover;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
 .post-conteudo {
-    flex: 0.38;
-    border-bottom: 1px solid #333;
-    color: #FFD700;
+  border-bottom: 1px solid #333;
+  color: var(--cor-destaque);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .post-meta {
-  font-size: 14px;
   color: #ccc;
-  margin-bottom: 10px;
 }
 
 .titulo-post {
-  font-size: 24px;
   font-weight: bold;
   color: #FFD700;
-  margin: 0 0 10px 0;
 }
 
 .resumo {
-  font-size: 16px;
-  line-height: 1.5;
   color: #ccc;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 4;     /* Para navegadores baseados em WebKit */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  line-clamp: 4;              /* Versão padrão futura (não funciona sozinha ainda) */
+  box-orient: vertical;
 }
-
-
-
 
 .post-link-txt, .post-link-txt {
   text-decoration: none;
   color: inherit;
 }
 
-
 .post-link-txt:hover h2, .post-link-txt:hover p {
   color: red;
+}
+
+
+
+@media (min-width: 750px) {
+  .post-lista {
+    gap: 60px;
+  }
+
+  .post-item {
+    gap: 1em;
+    padding-bottom: 40px;
+  }
+
+  .post-imagem img {
+    width: 250px;
+    height: 250px;
+  }
+
+  .post-conteudo {
+    flex: 0.38;
+    height: 250px; /* mesma altura da imagem */
+  }
+
+  .post-meta {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .titulo-post {
+    font-size: 22px;
+    margin: 0 0 10px 0;
+  }
+
+  .resumo {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+}
+
+
+@media (max-width: 750px) {
+  .post-lista {
+    gap: 20px;
+  }
+
+  .post-item {
+    gap: 1em;
+    padding-bottom: 20px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .post-imagem img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .post-conteudo {
+    flex: 0.38;
+    height: 200px; /* mesma altura da imagem */
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .post-meta {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  .titulo-post {
+    font-size: 20px;
+    margin: 0 0 10px 0;
+  }
+
+  .resumo {
+    font-size: 12px;
+    line-height: 1.5;
+  }
 }

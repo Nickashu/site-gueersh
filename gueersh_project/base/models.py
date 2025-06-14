@@ -154,7 +154,6 @@ class Post(models.Model):    #Model para informações de posts das bandas
     
     published_at = models.DateTimeField(null=True, blank=True)  #Data de publicação (é feito manualmente pelo admin)
     email_sent = models.BooleanField(default=False)             #Indica se o email de notificação foi enviado para os assinantes da newsletter
-    slug = models.SlugField(unique=True, blank=True)    #Slug para URL amigável (gerado automaticamente)
 
     def __str__(self):
         return f"{self.title}"
@@ -166,17 +165,6 @@ class Post(models.Model):    #Model para informações de posts das bandas
     def delete(self, *args, **kwargs):
         self.main_image.delete()
         super(Post, self).delete(*args, **kwargs)
-    
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            base_slug = slugify(self.title)
-            slug = base_slug
-            count = 1
-            while Post.objects.filter(slug=slug).exists():   #Garante que o slug seja único
-                slug = f"{base_slug}-{count}"
-                count += 1
-            self.slug = slug
-        super().save(*args, **kwargs)
 
 
 class NewsletterSubscriber(models.Model):
