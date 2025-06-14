@@ -9,8 +9,8 @@
 
 {% if user.is_staff or user.feitio_profile in band_members %}
     <div class="btns-banda"> 
-        <a class="btn btn-warning" href="{% url 'edit_band' band.pk %}">Editar banda</a>
-        <form method="POST" action="{% url 'delete_band' band.pk %}" style="display: inline;" onsubmit="return confirmarExclusao()">
+        <a class="btn btn-warning" href="{% url 'edit_band' band.slug %}">Editar banda</a>
+        <form method="POST" action="{% url 'delete_band' band.slug %}" style="display: inline;" onsubmit="return confirmarExclusao()">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger">Excluir banda</button>
         </form>
@@ -33,10 +33,10 @@
         <div class="social-networks">
             <div class="div-btn-social-networks">
                 <div class="txt-destaque">Redes Sociais</div>
-                {% if user.is_staff %}
-                    <button class="btn-edit btn btn-warning" style="display: none;">Edit</button>
-                    <a class="btn-add btn btn-info" href="{% url 'add_social_network' band.id %}" style="display: none;">Add</a>
-                    <button class="btn-cancel btn btn-danger" style="display: none;">Cancel</button>
+                {% if user.is_staff or user.feitio_profile in band.members%}
+                    <button class="btn-edit btn btn-warning btn-edit-social" style="display: none;"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <a class="btn-add btn btn-info btn-add-social" href="{% url 'add_social_network' band.slug %}" style="display: none;"><i class="fa-solid fa-plus"></i></a>
+                    <button class="btn-cancel btn btn-danger btn-cancel-social" style="display: none;">Cancelar</button>
                 {% endif %}
             </div>
             <div class="div-social-networks">
@@ -45,17 +45,22 @@
                         <a href="{{ social_network.link }}" target="_blank">
                             {{ social_network.html_icon|safe }}
                         </a>
-                        {% if user.is_staff %}
-                            <a class="btn-destaque btn-delete" href="{% url 'remove_social_network' band_id=band.id social_id=social_network.id|safe %}" style="display: none;">X</a>
+                        {% if user.is_staff or user.feitio_profile in band.members%}
+                            <a class="btn-destaque btn-delete btn-delete-social" href="{% url 'remove_social_network' band_slug=band.slug social_id=social_network.id|safe %}" style="display: none;"><i class="fa-solid fa-xmark"></i></a>
                         {% endif %}
                     </div>
                 {% endfor %}
             </div>
         </div>
 
-        <!-- Botão Contato -->
+        <!-- Contato -->
         <div class="contact">
             <div class="txt-destaque">Contato</div>
+            {% if user.is_staff or user.feitio_profile in band.members%}
+                <button class="btn-edit btn btn-warning btn-edit-contact" style="display: none;"><i class="fa-solid fa-pen-to-square"></i></button>
+                <a class="btn-add btn btn-info btn-add-contact" href="#" style="display: none;"><i class="fa-solid fa-plus"></i></a>
+                <button class="btn-cancel btn btn-danger btn-cancel-contact" style="display: none;">Cancelar</button>
+            {% endif %}
             <div class="div-contacts">
                 {% for contato in contacts %}
                     <div class="contact-info">

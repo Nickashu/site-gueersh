@@ -1,3 +1,5 @@
+@import url('variables.css');
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -65,7 +67,7 @@ body {
 }
 
 .menu-vertical a:hover {
-    color: yellow;
+    color: var(--cor-destaque);
     text-decoration: none;
     font-weight: bold;
 }
@@ -79,7 +81,7 @@ body {
     justify-content: center;
     gap: 1rem;
     background-color: black;
-    color: rgb(255 237 41);
+    color: var(--cor-destaque);
     min-height: 45em;
 }
 
@@ -92,7 +94,7 @@ body {
 
 .txt-destaque{
     border-radius: 5px;
-    background-color: #fffd61;
+    background-color: var(--cor-destaque);
     color: black;
     padding: 5px 10px;
     font-weight: bold;
@@ -102,14 +104,14 @@ body {
 }
 .txt-destaque:hover{
     background-color: black;
-    color: #fffd61;
+    color: var(--cor-destaque);
     border: 1px solid #fffd61;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn-destaque{
     border-radius: 5px;
-    background-color: #fffd61;
+    background-color: var(--cor-destaque);
     padding: 0px 3px;
     font-weight: bold;
     display: inline-block;
@@ -188,7 +190,7 @@ body {
 }
 .newsletter-box {
     background-color: #000;
-    color: #FFD700; 
+    color: var(--cor-destaque); 
     border-radius: 8px;
     padding: 10px;
     width: 50%;
@@ -200,7 +202,7 @@ body {
 
 .newsletter-input {
     background-color: #fff;
-    border: 1px solid #FFD700;
+    border: 1px solid var(--cor-destaque);
     border-radius: 0;
     color: #000;
 }
@@ -210,13 +212,13 @@ body {
 }
 
 .newsletter-button {
-    border: 1px solid #FFD700;
+    border: 1px solid var(--cor-destaque);
     color: red;
     font-weight: bold;
     transition: 0.3s;
 }
 
 .newsletter-button:hover {
-    background-color: #FFD700;
+    background-color: var(--cor-destaque);
     color: #000;
 }

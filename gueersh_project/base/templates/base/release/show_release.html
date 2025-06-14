@@ -9,8 +9,8 @@
 
 {% if user.is_staff or user.feitio_profile in allowed_members %}
     <div class="btns-lancamento"> 
-        <a class="btn btn-warning" href="{% url 'edit_release' release.pk %}">Editar lançamento</a>
-        <form method="POST" action="{% url 'delete_release' release.pk %}" style="display: inline;" onsubmit="return confirmarExclusao()">
+        <a class="btn btn-warning" href="{% url 'edit_release' release.slug %}">Editar lançamento</a>
+        <form method="POST" action="{% url 'delete_release' release.slug %}" style="display: inline;" onsubmit="return confirmarExclusao()">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger">Excluir lançamento</button>
         </form>
@@ -42,7 +42,7 @@
   </div>
 
   <div class="coluna-direita">
-      <h2 class="nome-banda">{{ release.band.name }}<br><span class="nome-lancamento">{{ release.title }}</span></h2>
+      <h2 class="nome-banda"><a href="{% url 'show_band' release.band.slug %}">{{ release.band.name }}</a><br><span class="nome-lancamento">{{ release.title }}</span></h2>
       <p class="data-lancamento">data de lançamento: {{ release.release_date }}</p>
       {% for description_part in custom_description %}
         <p>{{ description_part }}</p>

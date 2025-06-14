@@ -15,7 +15,7 @@
     <div class="row justify-content-center div-ultimos-lancamentos">
         {% for release in last_releases %}
             <div class="col-md-4 text-center mb-4">
-                <a href="{% url 'show_release' release.pk %}" class="btn-release">
+                <a href="{% url 'show_release' release.slug %}" class="btn-release">
                     <img src="{{ release.image.url }}" class="img-fluid mb-3" alt="Brita">
                 </a>
                 <h5 class="fw-bold text-warning">{{ release.band.name }}</h5>
@@ -34,7 +34,7 @@
         <div class="div-bandas">
             {% for band in bands %}
                 <div class="col-6 col-md-2 mb-2 div-btn-banda">
-                    <a href="{% url 'show_band' band.pk %}" class="btn-banda"><span class="nome-banda">{{ band.name }}</span></a>
+                    <a href="{% url 'show_band' band.slug %}" class="btn-banda"><span class="nome-banda">{{ band.name }}</span></a>
                 </div>
             {% endfor %}
         </div>

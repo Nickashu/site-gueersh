@@ -34,12 +34,12 @@ def music(request):
 
 
 #Bandas:
-def show_band(request, band_id):
-    band = get_object_or_404(Band, id=band_id)
+def show_band(request, band_slug):
+    band = get_object_or_404(Band, slug=band_slug)
     band_contacts = Contact.objects.filter(band=band)
     band_tours = Tour.objects.filter(band=band)
     tours = []
-    band_members = Band.objects.get(id=band_id).members.all()   #Obtém os membros da banda através do relacionamento ManyToMany com FeitioProfile
+    band_members = Band.objects.get(id=band.pk).members.all()   #Obtém os membros da banda através do relacionamento ManyToMany com FeitioProfile
     
     for band_tour in band_tours:
         tour = {}
@@ -83,29 +83,29 @@ def create_band(request):
     if request.method == 'POST':
         form = BandForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.save()
+            band = form.save(commit=False)
+            band.save()
             messages.success(request, "Banda criada com sucesso.")
-            return redirect('home')
+            return redirect('show_band', band_slug=band.slug)
     else:
         form = BandForm()
 
     return render(request, 'base/band/create_band.html', {'form': form})
 
 @login_required
-def edit_band(request, band_id):
-    band = get_object_or_404(Band, pk=band_id)
+def edit_band(request, band_slug):
+    band = get_object_or_404(Band, slug=band_slug)
 
     if not (request.user.is_staff or request.user.feitio_profile in band.members.all()):
         messages.error(request, "Você não tem permissão para realizar esta ação.")
-        return redirect('show_band', band_id=band.pk)
+        return redirect('show_band', band_slug=band.slug)
 
     if request.method == 'POST':
         form = BandForm(request.POST, request.FILES, instance=band)
         if form.is_valid():
             form.save()
             messages.success(request, "Banda editada com sucesso.")
-            return redirect('show_band', band_id=band.pk)
+            return redirect('show_band', band_slug=band.slug)
     else:
         form = BandForm(instance=band)
 
@@ -113,23 +113,23 @@ def edit_band(request, band_id):
 
 
 @login_required
-def delete_band(request, band_id):
-    band = get_object_or_404(Band, pk=band_id)
+def delete_band(request, band_slug):
+    band = get_object_or_404(Band, slug=band_slug)
 
     if not (request.user.is_staff or request.user.feitio_profile in band.members.all()):
         messages.error(request, "Você não tem permissão para realizar esta ação.")
-        return redirect('show_band', band_id=band.pk)
+        return redirect('show_band', band_slug=band.slug)
 
     if request.method == 'POST':
         band.delete()
         messages.success(request, "Banda excluída com sucesso.")
         return redirect('home')
-    return redirect('show_band', band_id=band.pk)
+    return redirect('show_band', band_slug=band.slug)
 
 
 #Lançamentos:
-def show_release(request, release_id):
-    release = get_object_or_404(Release, id=release_id)
+def show_release(request, release_slug):
+    release = get_object_or_404(Release, slug=release_slug)
     custom_description = release.description.split('\n')
     allowed_members = release.band.members.all()   #Membros da banda que poderão editar e excluir o lançamento
     release_credits = []
@@ -157,26 +157,26 @@ def create_release(request):
         if form.is_valid():
             release = form.save()
             messages.success(request, "Lançamento criado com sucesso.")
-            return redirect('show_release', release_id=release.id)
+            return redirect('show_release', release_slug=release.slug)
     else:
         form = ReleaseForm()
 
     return render(request, 'base/release/create_release.html', {'form': form})
 
 @login_required
-def edit_release(request, release_id):
-    release = get_object_or_404(Release, pk=release_id)
+def edit_release(request, release_slug):
+    release = get_object_or_404(Release, slug=release_slug)
 
     if not (request.user.is_staff or request.user.feitio_profile in release.band.members.all()):
         messages.error(request, "Você não tem permissão para realizar esta ação.")
-        return redirect('show_release', release_id=release.pk)
+        return redirect('show_release', release_slug=release.slug)
 
     if request.method == 'POST':
         form = ReleaseForm(request.POST, request.FILES, instance=release)
         if form.is_valid():
             form.save()
             messages.success(request, "Lançamento editado com sucesso.")
-            return redirect('show_release', release_id=release.pk)
+            return redirect('show_release', release_slug=release.slug)
     else:
         form = ReleaseForm(instance=release)
 
@@ -184,18 +184,18 @@ def edit_release(request, release_id):
 
 
 @login_required
-def delete_release(request, release_id):
-    release = get_object_or_404(Release, pk=release_id)
+def delete_release(request, release_slug):
+    release = get_object_or_404(Release, slug=release_slug)
 
     if not (request.user.is_staff or request.user.feitio_profile in release.band.members.all()):
         messages.error(request, "Você não tem permissão para realizar esta ação.")
-        return redirect('show_release', release_id=release.pk)
+        return redirect('show_release', release_slug=release.slug)
 
     if request.method == 'POST':
         release.delete()
         messages.success(request, "Lançamento excluído com sucesso.")
         return redirect('home')
-    return redirect('show_release', release_id=release.pk)
+    return redirect('show_release', release_slug=release.slug)
 
 
 #Perfil do usuário:
@@ -213,12 +213,12 @@ def show_profile(request, username):
 
 #Redes sociais da banda:
 @login_required
-def add_social_network(request, band_id):
-    band = get_object_or_404(Band, id=band_id)
+def add_social_network(request, band_slug):
+    band = get_object_or_404(Band, slug=band_slug)
 
     if not request.user.is_staff and request.user.feitio_profile not in band.members.all():   #Precisa ser staff ou membro da banda
         messages.error(request, "Você não tem permissão para adicionar redes sociais a esta banda.")
-        return redirect('show_band', band_id=band.id)
+        return redirect('show_band', band_slug=band.slug)
 
     if request.method == 'POST':
         form = BandSocialNetworkForm(request.POST)
@@ -227,7 +227,7 @@ def add_social_network(request, band_id):
             band_social.band = band
             band_social.save()
             messages.success(request, "Rede social adicionada com sucesso.")
-            return redirect('show_band', band_id=band.id)
+            return redirect('show_band', band_slug=band.slug)
     else:
         form = BandSocialNetworkForm()
 
@@ -237,18 +237,18 @@ def add_social_network(request, band_id):
     })
 
 @login_required
-def remove_social_network(request, band_id, social_id):
-    band = get_object_or_404(Band, id=band_id)
+def remove_social_network(request, band_slug, social_id):
+    band = get_object_or_404(Band, slug=band_slug)
     social = get_object_or_404(SocialNetwork, id=social_id)
 
     if not request.user.is_staff and request.user.feitio_profile not in band.members.all():   #Precisa ser staff ou membro da banda
         messages.error(request, "Você não tem permissão para remover redes sociais desta banda.")
-        return redirect('show_band', band_id=band.id)
+        return redirect('show_band', band_slug=band.slug)
 
     band_social_network = get_object_or_404(BandSocialNetwork, social_network=social, band=band)
     band_social_network.delete()
     messages.success(request, "Rede social removida com sucesso.")
-    return redirect('show_band', band_id=band.id)
+    return redirect('show_band', band_slug=band.slug)
 
 
 #Newsletter:

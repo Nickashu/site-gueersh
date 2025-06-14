@@ -40,7 +40,7 @@
                         <li><hr class="dropdown-divider"></li>
                         {% if user.feitio_profile.bands %}
                             {% for band in user.feitio_profile.bands.all %}
-                                <li><a class="dropdown-item" href="{% url 'show_band' band.pk %}">{{ band.name }}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'show_band' band.slug %}">{{ band.name }}</a></li>
                             {% endfor %}
                             <li><hr class="dropdown-divider"></li>
                         {% endif %}

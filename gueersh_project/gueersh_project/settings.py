@@ -199,6 +199,11 @@ ACCOUNT_FORMS = {
     'signup': 'base.forms.CustomSignupForm',  # ajuste para seu app
 }
 
+AUTH_PASSWORD_VALIDATORS = [     #Validações de senha
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', 'OPTIONS': {'min_length': 6},},
+]
+
 
 #Configurações do Summernote:
 SUMMERNOTE_CONFIG = {

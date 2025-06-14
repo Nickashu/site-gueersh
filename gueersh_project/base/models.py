@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 import uuid
+from django.utils.text import slugify
 
 class FeitioProfile(models.Model):    #Model para usuário personalizado
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE, related_name='feitio_profile')
@@ -38,6 +39,7 @@ class Band(models.Model):    #Model para informações de bandas
     
     published_at = models.DateTimeField(null=True, blank=True)  #Data de publicação (é feito manualmente pelo admin)
     email_sent = models.BooleanField(default=False)             #Indica se o email de notificação foi enviado para os assinantes da newsletter
+    slug = models.SlugField(unique=True, blank=True)    #Slug para URL amigável (gerado automaticamente)
 
     def __str__(self):
         return f"{self.name}"
@@ -45,6 +47,17 @@ class Band(models.Model):    #Model para informações de bandas
     class Meta:
         verbose_name = _('Band')
         verbose_name_plural = _('Bands')
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name)
+            slug = base_slug
+            count = 1
+            while Band.objects.filter(slug=slug).exists():   #Garante que o slug seja único
+                slug = f"{base_slug}-{count}"
+                count += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
 class Concert(models.Model):    #Model para informações de shows
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE, related_name='concerts')    #Uma turnê pode ter vários shows
@@ -98,6 +111,7 @@ class Release(models.Model):    #Model para informações de lançamentos das ba
     
     published_at = models.DateTimeField(null=True, blank=True)  #Data de publicação (é feito manualmente pelo admin)
     email_sent = models.BooleanField(default=False)             #Indica se o email de notificação foi enviado para os assinantes da newsletter
+    slug = models.SlugField(unique=True, blank=True)    #Slug para URL amigável (gerado automaticamente)
 
     def __str__(self):
         return f"{self.band.name} - {self.title}"
@@ -105,6 +119,17 @@ class Release(models.Model):    #Model para informações de lançamentos das ba
     class Meta:
         verbose_name = _('Release')
         verbose_name_plural = _('Releases')
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.title)
+            slug = base_slug
+            count = 1
+            while Release.objects.filter(slug=slug).exists():   #Garante que o slug seja único
+                slug = f"{base_slug}-{count}"
+                count += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
 class ReleaseCredits(models.Model):    #Model para informações de créditos dos lançamentos
     release = models.ForeignKey(Release, on_delete=models.CASCADE, related_name='credits')    #Um lançamento pode ter vários créditos
@@ -129,6 +154,7 @@ class Post(models.Model):    #Model para informações de posts das bandas
     
     published_at = models.DateTimeField(null=True, blank=True)  #Data de publicação (é feito manualmente pelo admin)
     email_sent = models.BooleanField(default=False)             #Indica se o email de notificação foi enviado para os assinantes da newsletter
+    slug = models.SlugField(unique=True, blank=True)    #Slug para URL amigável (gerado automaticamente)
 
     def __str__(self):
         return f"{self.title}"
@@ -140,6 +166,17 @@ class Post(models.Model):    #Model para informações de posts das bandas
     def delete(self, *args, **kwargs):
         self.main_image.delete()
         super(Post, self).delete(*args, **kwargs)
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.title)
+            slug = base_slug
+            count = 1
+            while Post.objects.filter(slug=slug).exists():   #Garante que o slug seja único
+                slug = f"{base_slug}-{count}"
+                count += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
 
 class NewsletterSubscriber(models.Model):

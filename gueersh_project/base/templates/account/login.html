@@ -1,12 +1,15 @@
 {% extends '../base/base.html' %}
 {% load i18n %}
 {% load allauth account %}
+{% load static %}
 
 {% block head_title %}
     {% trans "Sign In" %}
 {% endblock head_title %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/account/account_forms.css' %}">
+<div class="account-form-container">
     {% element h1 %}
         {% trans "Sign In" %}
     {% endelement %}
@@ -28,6 +31,11 @@
                 {% endelement %}
                 {{ redirect_field }}
             {% endslot %}
+
+            <div class="link-row">
+                <a href="{% url 'account_reset_password' %}">Esqueceu sua senha?</a>
+            </div>
+
             {% slot actions %}
                 {% element button type="submit" tags="prominent,login" %}
                     {% trans "Sign In" %}
@@ -35,28 +43,5 @@
             {% endslot %}
         {% endelement %}
     {% endif %}
-    {% if LOGIN_BY_CODE_ENABLED or PASSKEY_LOGIN_ENABLED %}
-        {% element hr %}
-        {% endelement %}
-        {% element button_group vertical=True %}
-            {% if PASSKEY_LOGIN_ENABLED %}
-                {% element button type="submit" form="mfa_login" id="passkey_login" tags="prominent,login,outline,primary" %}
-                    {% trans "Sign in with a passkey" %}
-                {% endelement %}
-            {% endif %}
-            {% if LOGIN_BY_CODE_ENABLED %}
-                {% element button href=request_login_code_url tags="prominent,login,outline,primary" %}
-                    {% trans "Send me a sign-in code" %}
-                {% endelement %}
-            {% endif %}
-        {% endelement %}
-    {% endif %}
+</div>
 {% endblock content %}
-
-
-{% block extra_body %}
-    {{ block.super }}
-    {% if PASSKEY_LOGIN_ENABLED %}
-        {% include "mfa/webauthn/snippets/login_script.html" with button_id="passkey_login" %}
-    {% endif %}
-{% endblock %}

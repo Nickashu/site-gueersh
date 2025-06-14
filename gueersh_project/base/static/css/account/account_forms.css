@@ -1,0 +1,92 @@
+@import url('../variables.css');
+
+.account-form-container {
+  background-color: #111;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+  width: 100%;
+  max-width: 50em;
+}
+
+.account-form-container h1 {
+  text-align: center;
+  color: var(--cor-destaque);
+  margin-bottom: 1em;
+  font-size: 2em;
+}
+
+.account-form-container p {
+  text-align: center;
+  color: var(--cor-destaque);
+  margin-bottom: 2em;
+  font-size: 0.95em;
+}
+
+.account-form-container p:empty {
+  display: none;
+  margin: 0;
+  padding: 0;
+}
+
+.account-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+}
+
+.account-form-container label {
+  font-weight: bold;
+  color: var(--cor-destaque);
+  margin-bottom: 0.3em;
+  display: block;
+}
+
+.account-form-container input[type="text"],
+.account-form-container input[type="password"],
+.account-form-container input[type="email"] {
+  padding: 0.6em;
+  border-radius: 6px;
+  border: none;
+  width: 80%;
+  background-color: #222;
+  color: #fff;
+}
+
+.account-form-container input::placeholder {
+  color: #aaa;
+}
+
+.account-form-container #id_password_helptext{
+  display: block;
+}
+
+.account-form-container button[type="submit"] {
+  background-color: var(--cor-destaque);
+  color: #000;
+  padding: 0.7em;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.account-form-container button[type="submit"]:hover {
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: #b19e37;
+}
+
+.account-form-container a {
+  color: #1e90ff;
+  font-size: 0.9em;
+  text-decoration: none;
+}
+
+.account-form-container a:hover {
+  text-decoration: underline;
+}
+
+.account-form-container .link-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -0.8em;
+}

@@ -52,6 +52,10 @@ body {
     font-size: 1.8rem;
     margin: 0;
 }
+.nome-banda a{
+    color: #fffd61;
+    text-decoration: none;
+}
 
 .nome-lancamento {
     font-size: 1.4rem;
