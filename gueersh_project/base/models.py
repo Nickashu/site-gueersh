@@ -28,11 +28,11 @@ class SocialNetwork(models.Model):     #Model que vai armazenar as redes sociais
         verbose_name_plural = _('Social Networks')
 
 class Band(models.Model):    #Model para informações de bandas
-    name = models.CharField(max_length=200, blank=False, null=False)
-    description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='bands/', blank=False, null=False)
-    video_link = models.URLField(blank=True, null=True)
-    spotify_link = models.URLField(blank=True, null=True)
+    name = models.CharField("Nome", max_length=200, blank=False, null=False)
+    description = models.TextField("Descrição", blank=True, null=True)
+    image = models.ImageField("Imagem principal", upload_to='bands/', blank=False, null=False)
+    video_link = models.URLField("Link para vídeo", blank=True, null=True)
+    spotify_link = models.URLField("Link para Spotify", blank=True, null=True)
     social_networks = models.ManyToManyField(SocialNetwork, through='BandSocialNetwork', related_name='bands')
     members = models.ManyToManyField(FeitioProfile, through='BandFeitioProfile', related_name='bands')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -100,13 +100,13 @@ class Contact(models.Model):    #Model para informações de contato das bandas
         
         
 class Release(models.Model):    #Model para informações de lançamentos das bandas
-    band = models.ForeignKey(Band, on_delete=models.CASCADE, related_name='releases')    #Uma banda pode ter vários lançamentos
-    title = models.CharField(max_length=100, blank=False, null=False)
-    image = models.ImageField(upload_to='releases/', blank=False, null=False)  #Imagem do lançamento (capa do álbum, single, etc.)
-    release_date = models.DateField(blank=False, null=False)
-    description = models.TextField(blank=False, null=False)
-    video_link = models.URLField(blank=True, null=True)
-    spotify_link = models.URLField(blank=True, null=True)
+    band = models.ForeignKey(Band, on_delete=models.CASCADE, related_name='releases', verbose_name="Banda")    #Uma banda pode ter vários lançamentos
+    title = models.CharField("Título", max_length=100, blank=False, null=False)
+    image = models.ImageField("Imagem principal", upload_to='releases/', blank=False, null=False)  #Imagem do lançamento (capa do álbum, single, etc.)
+    release_date = models.DateField("Data de lançamento", blank=False, null=False)
+    description = models.TextField("Descrição", blank=False, null=False)
+    video_link = models.URLField("Link para vídeo", blank=True, null=True)
+    spotify_link = models.URLField("Link para Spotify", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     published_at = models.DateTimeField(null=True, blank=True)  #Data de publicação (é feito manualmente pelo admin)
@@ -146,10 +146,10 @@ class ReleaseCredits(models.Model):    #Model para informações de créditos do
 
 class Post(models.Model):    #Model para informações de posts das bandas
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')    #Um usuário pode ter zero ou vários posts
-    title = models.CharField(max_length=200, blank=False, null=False)     #Título do post
-    main_image = models.ImageField(upload_to='posts/', blank=False, null=False)   #Imagem principal do post (que aparece na listagem)
-    main_description = models.TextField(blank=False, null=False)   #Descrição principal do post (que aparece na listagem)
-    content = models.TextField(blank=False, null=False)   #Conteúdo do post
+    title = models.CharField("Título", max_length=200, blank=False, null=False)     #Título do post
+    main_image = models.ImageField("Imagem principal", upload_to='posts/', blank=False, null=False)   #Imagem principal do post (que aparece na listagem)
+    main_description = models.TextField("Resumo", blank=False, null=False)   #Descrição principal do post (que aparece na listagem)
+    content = models.TextField("Conteúdo", blank=False, null=False)   #Conteúdo do post
     created_at = models.DateTimeField(auto_now_add=True)
     
     published_at = models.DateTimeField(null=True, blank=True)  #Data de publicação (é feito manualmente pelo admin)

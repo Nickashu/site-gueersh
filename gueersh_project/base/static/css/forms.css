@@ -1,5 +1,18 @@
+@import url('variables.css');
+
+@media (max-width: 500px) {
+    input,
+    textarea,
+    select,
+    span,
+    button {
+        font-size: 12px !important;
+    }
+}
+
 .container {
-    max-width: 800px;
+    max-width: 50em;
+    width: 90%;
     margin: 50px auto;
     background-color: #111;
     padding: 30px;
@@ -8,9 +21,15 @@
 }
 
 h2 {
-    color: #FFD700;
+    color: var(--cor-destaque);
     font-weight: bold;
     margin-bottom: 20px;
+}
+
+h4{
+    color: var(--cor-destaque);
+    font-weight: bold;
+    margin-top: 20px;
 }
 
 label {
@@ -34,6 +53,12 @@ select {
 
 input[type="file"] {
     background-color: transparent;
+}
+
+a{
+    color: var(--cor-destaque);
+    font-weight: bold;
+    text-decoration: none;
 }
 
 button.btn-primary {

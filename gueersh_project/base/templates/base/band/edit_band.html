@@ -5,12 +5,22 @@
 {% block title %}Edição de Banda{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/bpr_forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
 <div class="container mt-5">
   <h2>Editando banda: {{ band.name }}</h2>
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
+
+    <h4>Contatos (opcional)</h4>
+    {{ formset.management_form }}
+    {% for form in formset %}
+        <div class="formset-row">
+            {{ form|crispy }}
+        </div>
+        <hr>
+    {% endfor %}
+
     <button type="submit" class="btn btn-primary mt-3">Salvar informações</button>
   </form>
 </div>

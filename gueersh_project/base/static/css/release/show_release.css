@@ -13,7 +13,7 @@ body {
 
 .btns-lancamento{
     display: flex;
-    gap: 1em;
+    gap: 0.5em;
     width: 100%;
     padding-left: 1em;
     padding-right: 1em;
@@ -21,7 +21,7 @@ body {
 }
 
 .coluna-esquerda {
-    flex: 1.9;
+    flex: 1.7;
 }
 
 .coluna-direita {
@@ -90,7 +90,7 @@ body {
   }
 
   .img-lancamento {
-    width: 100%;
+    width: 75%;
     max-width: none;
   }
 

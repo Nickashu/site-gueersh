@@ -1,11 +1,20 @@
 @import url('../variables.css');
 
+@media (max-width: 500px) {
+  .account-form-container input[type="text"],
+  .account-form-container input[type="password"],
+  .account-form-container input[type="email"] {
+    width: 100% !important;
+    font-size: 12px;
+  }
+}
+
 .account-form-container {
   background-color: #111;
   padding: 40px 30px;
   border-radius: 12px;
   box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
-  width: 100%;
+  width: 90%;
   max-width: 50em;
 }
 
@@ -14,6 +23,7 @@
   color: var(--cor-destaque);
   margin-bottom: 1em;
   font-size: 2em;
+  font-weight: bold;
 }
 
 .account-form-container p {
@@ -48,7 +58,7 @@
   padding: 0.6em;
   border-radius: 6px;
   border: none;
-  width: 80%;
+  width: 70%;
   background-color: #222;
   color: #fff;
 }

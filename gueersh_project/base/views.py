@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-import logging
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.forms import inlineformset_factory
+import logging
 from django.conf import settings
 from .models import Band, Contact, Tour, Concert, BandSocialNetwork, Release, ReleaseCredits, FeitioProfile, Post, SocialNetwork, NewsletterSubscriber, BandFeitioProfile
-from .forms import PostForm, BandForm, BandSocialNetworkForm, ReleaseForm, NewsletterSubscriberForm
+from .forms import PostForm, BandForm, BandSocialNetworkForm, ReleaseForm, NewsletterSubscriberForm, ContactForm, ReleaseCreditsForm
 from django.contrib import messages
 from django.http import JsonResponse
 from allauth.account.models import EmailAddress
@@ -25,7 +26,7 @@ def about(request):
 
 def music(request):
     bands = Band.objects.all()
-    last_releases = Release.objects.order_by('created_at')[:2]
+    last_releases = Release.objects.order_by('created_at')
     context = {
         'bands': bands,
         'last_releases': last_releases,
@@ -92,6 +93,15 @@ def create_band(request):
 
     return render(request, 'base/band/create_band.html', {'form': form})
 
+
+ContactFormSet = inlineformset_factory(
+    parent_model=Band,
+    model=Contact,
+    form=ContactForm,
+    fields=['role', 'name', 'email'],
+    extra=5,
+    can_delete=True
+)
 @login_required
 def edit_band(request, band_slug):
     band = get_object_or_404(Band, slug=band_slug)
@@ -102,14 +112,19 @@ def edit_band(request, band_slug):
 
     if request.method == 'POST':
         form = BandForm(request.POST, request.FILES, instance=band)
-        if form.is_valid():
+        formset = ContactFormSet(request.POST, instance=band)
+        
+        
+        if form.is_valid() and formset.is_valid():
             form.save()
+            formset.save()
             messages.success(request, "Banda editada com sucesso.")
             return redirect('show_band', band_slug=band.slug)
     else:
         form = BandForm(instance=band)
+        formset = ContactFormSet(instance=band)
 
-    return render(request, 'base/band/edit_band.html', {'form': form, 'band': band})
+    return render(request, 'base/band/edit_band.html', {'form': form, 'formset': formset, 'band': band})
 
 
 @login_required
@@ -163,6 +178,14 @@ def create_release(request):
 
     return render(request, 'base/release/create_release.html', {'form': form})
 
+ReleaseCreditsFormSet = inlineformset_factory(
+    parent_model=Release,
+    model=ReleaseCredits,
+    form=ReleaseCreditsForm,
+    fields=['role', 'crew'],
+    extra=5,
+    can_delete=True
+)
 @login_required
 def edit_release(request, release_slug):
     release = get_object_or_404(Release, slug=release_slug)
@@ -173,14 +196,17 @@ def edit_release(request, release_slug):
 
     if request.method == 'POST':
         form = ReleaseForm(request.POST, request.FILES, instance=release)
-        if form.is_valid():
+        formset = ReleaseCreditsFormSet(request.POST, instance=release)
+        if form.is_valid() and formset.is_valid():
             form.save()
+            formset.save()
             messages.success(request, "Lançamento editado com sucesso.")
             return redirect('show_release', release_slug=release.slug)
     else:
         form = ReleaseForm(instance=release)
+        formset = ReleaseCreditsFormSet(instance=release)
 
-    return render(request, 'base/release/edit_release.html', {'form': form, 'release': release})
+    return render(request, 'base/release/edit_release.html', {'form': form, 'formset': formset, 'release': release})
 
 
 @login_required

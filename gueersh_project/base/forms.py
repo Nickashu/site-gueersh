@@ -1,6 +1,6 @@
 from django import forms
 from django_summernote.widgets import SummernoteWidget
-from .models import Post, Band, BandSocialNetwork, Release, NewsletterSubscriber
+from .models import Post, Band, BandSocialNetwork, Release, NewsletterSubscriber, ReleaseCredits, Contact
 from allauth.account.forms import SignupForm
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -51,7 +51,7 @@ class ReleaseForm(forms.ModelForm):
         model = Release
         fields = ['band', 'title', 'image', 'release_date', 'description', 'video_link', 'spotify_link']
         widgets = {
-            'release_date': forms.DateInput(attrs={'type': 'date'}),
+            'release_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'description': forms.Textarea(attrs={'rows': 5}),
         }
     
@@ -76,6 +76,24 @@ class NewsletterSubscriberForm(forms.ModelForm):
             })
         }
         
+class ReleaseCreditsForm(forms.ModelForm):
+    class Meta:
+        model = ReleaseCredits
+        fields = ['role', 'crew']
+        widgets = {
+            'role': forms.TextInput(attrs={'placeholder': 'Cargo'}),
+            'crew': forms.Textarea(attrs={'placeholder': 'Equipe responsável'}),
+        }
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['role', 'name', 'email']
+        widgets = {
+            'role': forms.TextInput(attrs={'placeholder': 'Cargo'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Nome'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'E-mail'}),
+        }
 
 #Sobrescrevendo o formulário para o registro de usuários:
 User = get_user_model()

@@ -1,12 +1,16 @@
 {% extends '../base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+<div class="container mt-5">
   <h2>Adicionar rede social para {{ band.name }}</h2>
+  <a href="{% url 'show_band' band.slug %}">Voltar para a banda</a>
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
     <button type="submit" class="btn btn-primary mt-3">Salvar</button>
   </form>
-  <a href="{% url 'show_band' band.id %}">Voltar para a banda</a>
+</div>
 {% endblock %}

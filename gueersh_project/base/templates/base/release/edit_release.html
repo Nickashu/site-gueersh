@@ -5,11 +5,24 @@
 {% block title %}Edição de Lançamento{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/bpr_forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+<div class="container mt-5">
   <h2>Editando lançamento: {{ release.name }}</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
+
+    <h4>Créditos de lançamento (opcional)</h4>
+    {{ formset.management_form }}
+    {% for form in formset %}
+        <div class="formset-row">
+            {{ form|crispy }}
+
+        </div>
+        <hr>
+    {% endfor %}
+
     <button type="submit" class="btn btn-primary mt-3">Salvar informações</button>
   </form>
+</div>
 {% endblock %}

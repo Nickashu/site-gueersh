@@ -1,3 +1,5 @@
+@import url('../variables.css');
+
 .container-banda{
     display: flex;
     flex-direction: row;
@@ -64,6 +66,10 @@
 .contact-info p{
     margin: 0;
 }
+.contact-info a{
+    text-decoration: none;
+    color: var(--cor-destaque);
+}
 .title-contact{
     font-weight: bold;
 }
@@ -78,7 +84,7 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .container-banda {
     flex-direction: column;
     width: 90%;
@@ -89,7 +95,7 @@
   .coluna-esquerda,
   .coluna-direita {
     width: 100%;
-    align-items: center;
+    align-items: stretch;
   }
 
   .div-band-img img {
@@ -97,9 +103,9 @@
   }
 
   .btns-banda {
-    justify-content: center;
+    justify-content: left;
     align-items: stretch;
-    padding: 1em;
+    padding: 0.5em;
   }
   .btns-banda button, .btns-banda a{
     font-size: 12px;

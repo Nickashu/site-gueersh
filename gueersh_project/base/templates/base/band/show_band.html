@@ -56,11 +56,6 @@
         <!-- Contato -->
         <div class="contact">
             <div class="txt-destaque">Contato</div>
-            {% if user.is_staff or user.feitio_profile in band.members%}
-                <button class="btn-edit btn btn-warning btn-edit-contact" style="display: none;"><i class="fa-solid fa-pen-to-square"></i></button>
-                <a class="btn-add btn btn-info btn-add-contact" href="#" style="display: none;"><i class="fa-solid fa-plus"></i></a>
-                <button class="btn-cancel btn btn-danger btn-cancel-contact" style="display: none;">Cancelar</button>
-            {% endif %}
             <div class="div-contacts">
                 {% for contato in contacts %}
                     <div class="contact-info">
@@ -106,8 +101,5 @@
     var social_networks = {{social_networks|safe}};
     var tours = "{{tours|safe}}";
     var members = "{{band_members|safe}}";
-    //console.log("membros: ", members);
-    //console.log(tours);
-    //console.log("dasdldajads");
 </script>
 {% endblock %}

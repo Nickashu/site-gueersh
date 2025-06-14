@@ -5,7 +5,8 @@ h2{
 .div-ultimos-lancamentos img{
     border-radius: 5px;
     box-shadow: 0px 0px 10px gray;
-    max-width: 60% !important;
+    width: 230px;
+    height: 230px;
 }
 
 .div-ultimos-lancamentos a{
@@ -56,4 +57,11 @@ h2{
     color: #fffd61;
     border: 1px solid #fffd61;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@media (max-width: 600px) {
+    .div-ultimos-lancamentos img{
+        width: 180px;
+        height: 180px;
+    }
 }

@@ -18,7 +18,7 @@
 
 .author-btns{
   display: flex;
-  gap: 1em;
+  gap: 0.5em;
   align-items: center;
 }
 
@@ -94,7 +94,7 @@
   }
 
   .caption {
-    font-size: 0.5em;
+    font-size: 0.7em;
   }
 
   .image-text-side div {
