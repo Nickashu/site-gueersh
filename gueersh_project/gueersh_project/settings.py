@@ -20,7 +20,7 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS").split(",")
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.getenv("RAILWAY_VOLUME_MOUNT_PATH", BASE_DIR / 'media')
 
 # Application definition
 
