@@ -15,10 +15,14 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
 ]
 
-#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += [
-    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
-]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  #Em desenvolvimento, o Django serve arquivos de mídia normalmente
+else:
+    #Em produção no Railway, o Django não serve /media/ automaticamente
+    #Usamos re_path + serve para servir os uploads do volume persistente
+    urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    ]
 
 def redirect_home(request):
     return redirect('/')
