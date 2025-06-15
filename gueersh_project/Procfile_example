@@ -1,0 +1,2 @@
+custom start command:
+cd gueersh_project && python manage.py collectstatic && gunicorn gueersh_project.wsgi --log-file -
