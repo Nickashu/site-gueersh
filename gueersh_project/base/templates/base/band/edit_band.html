@@ -5,6 +5,7 @@
 {% block title %}Edição de Banda{% endblock %}
 
 {% block content %}
+<script src="{% static 'js/band/edit_band.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/forms.css' %}">
 <div class="container mt-5">
   <h2>Editando banda: {{ band.name }}</h2>
@@ -13,14 +14,20 @@
     {{ form|crispy }}
 
     <h4>Contatos (opcional)</h4>
-    {{ formset.management_form }}
-    {% for form in formset %}
-        <div class="formset-row">
-            {{ form|crispy }}
-        </div>
-        <hr>
-    {% endfor %}
-
+    <div id="formset-container">
+      {{ formset.management_form }}
+      {% for form in formset %}
+          <div class="formset-form mb-3">
+              {{ form|crispy }}
+          </div>
+      {% endfor %}
+    </div>
+    <!-- Template escondido do formulário vazio -->
+    <div id="empty-form" style="display: none;">
+      {{ formset.empty_form|crispy }}
+    </div>
+    <button type="button" class="btn btn-outline-light mt-2" id="add-form">Adicionar contato</button>
+    <br><br>
     <button type="submit" class="btn btn-primary mt-3">Salvar informações</button>
   </form>
 </div>

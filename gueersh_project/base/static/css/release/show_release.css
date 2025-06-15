@@ -1,3 +1,5 @@
+@import url('variables.css');
+
 body {
     background-color: black;
     color: #fffd61;
@@ -7,7 +9,7 @@ body {
 .lancamento-container {
     display: flex;
     padding: 40px;
-    gap: 40px;
+    gap: 2em;
     width: 75%;
 }
 
@@ -21,11 +23,11 @@ body {
 }
 
 .coluna-esquerda {
-    flex: 1.7;
+    flex: 1;
 }
 
 .coluna-direita {
-    flex: 1.8;
+    flex: 1.1;
 }
 
 .div-img-album{

@@ -10,7 +10,7 @@
 {% if user.is_staff or user.feitio_profile in band_members %}
     <div class="btns-banda"> 
         <a class="btn btn-warning" href="{% url 'edit_band' band.slug %}">Editar banda</a>
-        <form method="POST" action="{% url 'delete_band' band.slug %}" style="display: inline;" onsubmit="return confirmarExclusao()">
+        <form method="POST" action="{% url 'delete_band' band.slug %}" style="display: inline;" onsubmit="return confirmarExclusaoBanda()">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger">Excluir banda</button>
         </form>
@@ -82,7 +82,18 @@
         <div class="div-turnes">
             {% for tour in tours %}
                 <div class="turne">
-                    <div class="txt-destaque">Turnê {{ tour.year }}</div>
+                    <div class="turne-header">
+                        <div class="txt-destaque">Turnê {{ tour.year }}</div>
+                        {% if user.is_staff or user.feitio_profile in band.members %}
+                            <div class="btns-turne">
+                                <a class="btn-edit-tour" href="{% url 'edit_tour' band_slug=band.slug tour_id=tour.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <form method="POST" action="{% url 'delete_tour' band_slug=band.slug tour_id=tour.id %}" style="display: inline;" onsubmit="return confirmarExclusaoTurne()">
+                                    {% csrf_token %}
+                                    <button type="submit"><i class="fa-solid fa-xmark"></i></button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </div>
                     <div class="turne-lista">
                     {% for concert in tour.concerts %}
                         <p>{{ concert.date }} - {{ concert.city }}, {{ concert.state }}, {{ concert.country }} @ {{ concert.venue }}</p>
@@ -90,6 +101,11 @@
                     </div>
                 </div>
             {% endfor %}
+            {% if user.is_staff or user.feitio_profile in band.members %}
+                <div class="div-add-tour">
+                    <a class="btn btn-info btn-add-tour" href="{% url 'create_tour' band.slug %}">Criar Turnê</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 

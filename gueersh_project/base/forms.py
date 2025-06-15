@@ -1,6 +1,6 @@
 from django import forms
 from django_summernote.widgets import SummernoteWidget
-from .models import Post, Band, BandSocialNetwork, Release, NewsletterSubscriber, ReleaseCredits, Contact
+from .models import Post, Band, BandSocialNetwork, Release, NewsletterSubscriber, ReleaseCredits, Contact, Tour, Concert
 from allauth.account.forms import SignupForm
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -81,7 +81,7 @@ class ReleaseCreditsForm(forms.ModelForm):
         model = ReleaseCredits
         fields = ['role', 'crew']
         widgets = {
-            'role': forms.TextInput(attrs={'placeholder': 'Cargo'}),
+            'role': forms.TextInput(attrs={'placeholder': 'Ex: Produção, Mixagem...'}),
             'crew': forms.Textarea(attrs={'placeholder': 'Equipe responsável'}),
         }
 
@@ -93,6 +93,26 @@ class ContactForm(forms.ModelForm):
             'role': forms.TextInput(attrs={'placeholder': 'Cargo'}),
             'name': forms.TextInput(attrs={'placeholder': 'Nome'}),
             'email': forms.EmailInput(attrs={'placeholder': 'E-mail'}),
+        }
+        
+class TourForm(forms.ModelForm):
+    class Meta:
+        model = Tour
+        fields = ['year']
+        widgets = {
+            'year': forms.NumberInput(attrs={'placeholder': 'Ano da turnê'}),
+        }
+
+class ConcertForm(forms.ModelForm):
+    class Meta:
+        model = Concert
+        fields = ['date', 'city', 'state', 'country', 'venue']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date', 'placeholder': 'Data do show'}, format='%Y-%m-%d'),
+            'city': forms.TextInput(attrs={'placeholder': '"Cidade onde o show ocorrerá. Ex: São Paulo"'}),
+            'state': forms.TextInput(attrs={'placeholder': 'Estado onde o show ocorrerá (opcional). Ex: SP'}),
+            'country': forms.TextInput(attrs={'placeholder': 'País onde o show ocorrerá. Ex: Brasil'}),
+            'venue': forms.TextInput(attrs={'placeholder': 'Local onde o show ocorrerá. Ex: Circo Voador'}),
         }
 
 #Sobrescrevendo o formulário para o registro de usuários:

@@ -61,11 +61,11 @@ class Band(models.Model):    #Model para informações de bandas
 
 class Concert(models.Model):    #Model para informações de shows
     tour = models.ForeignKey('Tour', on_delete=models.CASCADE, related_name='concerts')    #Uma turnê pode ter vários shows
-    date = models.DateField(blank=False, null=False, help_text="Data do show")
-    city = models.CharField(max_length=100, blank=False, null=False, help_text="Cidade onde o show ocorrerá. Ex: São Paulo", default="")
-    state = models.CharField(max_length=100, blank=True, null=True, help_text="Estado onde o show ocorrerá (pode deixar em branco). Ex: SP", default="")
-    country = models.CharField(max_length=100, blank=True, null=True, help_text="País onde o show ocorrerá. Ex: Brasil")
-    venue = models.CharField(max_length=100, blank=False, null=False, help_text="Local onde o show ocorrerá. Ex: Espaço das Américas")
+    date = models.DateField("Data", blank=False, null=False)
+    city = models.CharField("Cidade", max_length=100, blank=False, null=False, default="")
+    state = models.CharField("Estado", max_length=100, blank=True, null=True, default="")
+    country = models.CharField("País", max_length=100, blank=True, null=True)
+    venue = models.CharField("Local", max_length=100, blank=False, null=False)
     
     def __str__(self):
         return f"{self.tour} - Show de {self.date}: {self.city}, {self.state}, {self.country} - {self.venue}"
@@ -76,7 +76,7 @@ class Concert(models.Model):    #Model para informações de shows
 
 class Tour(models.Model):    #Model para informações de turnês
     band = models.ForeignKey(Band, on_delete=models.CASCADE, related_name='tours')   #Uma banda pode ter várias turnês
-    year = models.CharField(max_length=4, blank=False, null=False)
+    year = models.CharField("Ano", max_length=4, blank=False, null=False)
 
     def __str__(self):
         return f"{self.band.name} - Tour {self.year}"
@@ -87,9 +87,9 @@ class Tour(models.Model):    #Model para informações de turnês
 
 class Contact(models.Model):    #Model para informações de contato das bandas
     band = models.ForeignKey(Band, on_delete=models.CASCADE, related_name='contacts')   #Uma banda pode ter vários contatos
-    role = models.CharField(max_length=100)  #Ex: Imprensa, Booking, Selo...
-    name = models.CharField(max_length=100, blank=False, null=False)
-    email = models.EmailField()
+    role = models.CharField("Cargo", max_length=100)  #Ex: Imprensa, Booking, Selo...
+    name = models.CharField("Nome", max_length=100, blank=False, null=False)
+    email = models.EmailField("E-mail", blank=True, null=True)
 
     def __str__(self):
         return f"{self.band.name}: {self.role} - {self.name}"
@@ -133,8 +133,8 @@ class Release(models.Model):    #Model para informações de lançamentos das ba
 
 class ReleaseCredits(models.Model):    #Model para informações de créditos dos lançamentos
     release = models.ForeignKey(Release, on_delete=models.CASCADE, related_name='credits')    #Um lançamento pode ter vários créditos
-    role = models.CharField(max_length=100, blank=False, null=False)  #Ex: Produção, Mixagem, Masterização...
-    crew = models.TextField(blank=False, null=False)    #Equipe responsável pela função
+    role = models.CharField("Função", max_length=100, blank=False, null=False)  #Ex: Produção, Mixagem, Masterização...
+    crew = models.TextField("Equipe", blank=False, null=False)    #Equipe responsável pela função
 
     def __str__(self):
         return f"{self.release.title} - {self.role}"

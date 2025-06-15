@@ -47,12 +47,16 @@ select {
     border-radius: 5px;
     border: none;
     margin-top: 5px;
-    background-color: #222;
-    color: #fff;
 }
 
 input[type="file"] {
     background-color: transparent;
+}
+
+div[id*="helptext"] {
+  font-size: 0.9em;
+  color: #ccc;
+  font-style: italic;
 }
 
 a.return{

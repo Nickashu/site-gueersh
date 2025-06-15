@@ -4,8 +4,8 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 1em;
-    width: 60%;
+    gap: 3em;
+    width: 62%;
 }
 
 .btns-banda{
@@ -22,7 +22,7 @@
     flex-direction: column;
     align-items: baseline;
     row-gap: 1em;
-    flex: 1.5;
+    flex: 0.7;
 }
 
 .coluna-direita{
@@ -30,7 +30,7 @@
     flex-direction: column;
     align-items: center;
     row-gap: 1em;
-    flex: 2;
+    flex: 0.9;
 }
 
 .div-band-img img{
@@ -74,13 +74,54 @@
     font-weight: bold;
 }
 
+.assistir, .ouvir{
+    width: 100%;
+}
+
 .div-turnes{
     display: flex;
     flex-direction: column;
     row-gap: 2em;
+    width: 100%;
 }
 .turne-lista p{
     margin: 0;
+}
+
+.turne-header{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+.btns-turne{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2em;
+}
+.btns-turne a, .btns-turne button{
+    text-decoration: none;
+    color: var(--cor-destaque);
+    font-weight: bold;
+    background: none;
+    border: none;
+}
+
+.div-add-tour{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-add-tour{
+    background: var(--cor-destaque);
+    border: none;
+    font-weight: bold;
+    width: 40%;
+}
+.btn-add-tour:hover{
+    opacity: 0.7;
+    background-color: var(--cor-destaque);
+    transition: opacity 0.3s ease, background-color 0.3s ease;
 }
 
 
@@ -115,5 +156,14 @@
     flex-wrap: wrap;
     justify-content: center;
     row-gap: 1em;
+  }
+
+  .div-add-tour{
+    justify-content: left;
+  }
+  .btn-add-tour{
+    font-size: 14px;
+    max-width: 10em;
+    width: 45%;
   }
 }

@@ -5,22 +5,29 @@
 {% block title %}Edição de Lançamento{% endblock %}
 
 {% block content %}
+<script src="{% static 'js/release/edit_release.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/forms.css' %}">
 <div class="container mt-5">
-  <h2>Editando lançamento: {{ release.name }}</h2>
+  <h2>Edição de lançamento</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
 
     <h4>Créditos de lançamento (opcional)</h4>
-    {{ formset.management_form }}
-    {% for form in formset %}
-        <div class="formset-row">
-            {{ form|crispy }}
-
-        </div>
-        <hr>
-    {% endfor %}
+    <div id="formset-container">
+      {{ formset.management_form }}
+      {% for form in formset %}
+          <div class="formset-form mb-3">
+              {{ form|crispy }}
+          </div>
+      {% endfor %}
+    </div>
+    <!-- Template escondido do formulário vazio -->
+    <div id="empty-form" style="display: none;">
+      {{ formset.empty_form|crispy }}
+    </div>
+    <button type="button" class="btn btn-outline-light mt-2" id="add-form">Adicionar crédito</button>
+    <br><br>
 
     <button type="submit" class="btn btn-primary mt-3">Salvar informações</button>
   </form>

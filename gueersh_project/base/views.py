@@ -4,7 +4,7 @@ from django.forms import inlineformset_factory
 import logging
 from django.conf import settings
 from .models import Band, Contact, Tour, Concert, BandSocialNetwork, Release, ReleaseCredits, FeitioProfile, Post, SocialNetwork, NewsletterSubscriber, BandFeitioProfile
-from .forms import PostForm, BandForm, BandSocialNetworkForm, ReleaseForm, NewsletterSubscriberForm, ContactForm, ReleaseCreditsForm
+from .forms import PostForm, BandForm, BandSocialNetworkForm, ReleaseForm, NewsletterSubscriberForm, ContactForm, ReleaseCreditsForm, TourForm, ConcertForm
 from django.contrib import messages
 from django.http import JsonResponse
 from allauth.account.models import EmailAddress
@@ -44,6 +44,7 @@ def show_band(request, band_slug):
     
     for band_tour in band_tours:
         tour = {}
+        tour['id'] = band_tour.id
         tour['year'] = band_tour.year
         concerts = []
         for concert in Concert.objects.filter(tour=band_tour).order_by('date'):
@@ -99,7 +100,7 @@ ContactFormSet = inlineformset_factory(
     model=Contact,
     form=ContactForm,
     fields=['role', 'name', 'email'],
-    extra=5,
+    extra=0,
     can_delete=True
 )
 @login_required
@@ -112,8 +113,7 @@ def edit_band(request, band_slug):
 
     if request.method == 'POST':
         form = BandForm(request.POST, request.FILES, instance=band)
-        formset = ContactFormSet(request.POST, instance=band)
-        
+        formset = ContactFormSet(request.POST, instance=band, prefix='contacts')
         
         if form.is_valid() and formset.is_valid():
             form.save()
@@ -122,7 +122,7 @@ def edit_band(request, band_slug):
             return redirect('show_band', band_slug=band.slug)
     else:
         form = BandForm(instance=band)
-        formset = ContactFormSet(instance=band)
+        formset = ContactFormSet(instance=band, prefix='contacts')
 
     return render(request, 'base/band/edit_band.html', {'form': form, 'formset': formset, 'band': band})
 
@@ -183,7 +183,7 @@ ReleaseCreditsFormSet = inlineformset_factory(
     model=ReleaseCredits,
     form=ReleaseCreditsForm,
     fields=['role', 'crew'],
-    extra=5,
+    extra=0,
     can_delete=True
 )
 @login_required
@@ -196,7 +196,7 @@ def edit_release(request, release_slug):
 
     if request.method == 'POST':
         form = ReleaseForm(request.POST, request.FILES, instance=release)
-        formset = ReleaseCreditsFormSet(request.POST, instance=release)
+        formset = ReleaseCreditsFormSet(request.POST, instance=release, prefix='credits')
         if form.is_valid() and formset.is_valid():
             form.save()
             formset.save()
@@ -204,7 +204,7 @@ def edit_release(request, release_slug):
             return redirect('show_release', release_slug=release.slug)
     else:
         form = ReleaseForm(instance=release)
-        formset = ReleaseCreditsFormSet(instance=release)
+        formset = ReleaseCreditsFormSet(instance=release, prefix='credits')
 
     return render(request, 'base/release/edit_release.html', {'form': form, 'formset': formset, 'release': release})
 
@@ -222,6 +222,73 @@ def delete_release(request, release_slug):
         messages.success(request, "Lançamento excluído com sucesso.")
         return redirect('home')
     return redirect('show_release', release_slug=release.slug)
+
+
+#Turnês:
+@login_required
+def create_tour(request, band_slug):
+    band = get_object_or_404(Band, slug=band_slug)
+
+    if not (request.user.is_staff or request.user.feitio_profile in band.members.all()):
+        messages.error(request, "Você não tem permissão para realizar esta ação.")
+        return redirect('show_band', band_slug=band.slug)
+    if request.method == 'POST':
+        form = TourForm(request.POST)
+        if form.is_valid():
+            tour = form.save(commit=False)
+            tour.band = band
+            tour.save()
+            messages.success(request, "Turnê criada com sucesso.")
+            return redirect('show_band', band_slug=band.slug)
+    else:
+        form = TourForm()
+    return render(request, 'base/tour/create_tour.html', {'form': form, 'band': band})
+
+ConcertFormSet = inlineformset_factory(
+    parent_model=Tour,
+    model=Concert,
+    form=ConcertForm,
+    fields=['date', 'city', 'state', 'country', 'venue'],
+    extra=0,
+    can_delete=True
+)
+@login_required
+def edit_tour(request, band_slug, tour_id):
+    band = get_object_or_404(Band, slug=band_slug)
+    tour = get_object_or_404(Tour, id=tour_id)
+
+    if not (request.user.is_staff or request.user.feitio_profile in band.members.all()):
+        messages.error(request, "Você não tem permissão para realizar esta ação.")
+        return redirect('show_band', band_slug=band.slug)
+
+    if request.method == 'POST':
+        form = TourForm(request.POST, instance=tour)
+        formset = ConcertFormSet(request.POST, instance=tour, prefix='concerts')
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            messages.success(request, "Turnê editada com sucesso.")
+            return redirect('show_band', band_slug=band.slug)
+    else:
+        form = TourForm(instance=tour)
+        formset = ConcertFormSet(instance=tour, prefix='concerts')
+
+    return render(request, 'base/tour/edit_tour.html', {'form': form, 'formset': formset, 'band': band, 'tour': tour})
+
+@login_required
+def delete_tour(request, band_slug, tour_id):
+    band = get_object_or_404(Band, slug=band_slug)
+    tour = get_object_or_404(Tour, id=tour_id)
+
+    if not (request.user.is_staff or request.user.feitio_profile in band.members.all()):
+        messages.error(request, "Você não tem permissão para realizar esta ação.")
+        return redirect('show_band', band_slug=band.slug)
+
+    if request.method == 'POST':
+        tour.delete()
+        messages.success(request, "Turnê excluída com sucesso.")
+        return redirect('show_band', band_slug=band.slug)
+    return redirect('show_band', band_slug=band.slug)
 
 
 #Perfil do usuário:

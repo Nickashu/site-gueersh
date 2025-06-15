@@ -1,0 +1,36 @@
+{% extends '../base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Edição de Turnê{% endblock %}
+
+{% block content %}
+<script src="{% static 'js/tour/edit_tour.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+
+<div class="container mt-5">
+    <h2>Editando turnê: {{band.name}}: Turnê {{ tour.title }}</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <h4>Shows (opcional)</h4>
+        <div id="formset-container">
+        {{ formset.management_form }}
+        {% for form in formset %}
+            <div class="formset-form mb-3">
+                {{ form|crispy }}
+            </div>
+        {% endfor %}
+        </div>
+        <!-- Template escondido do formulário vazio -->
+        <div id="empty-form" style="display: none;">
+            {{ formset.empty_form|crispy }}
+        </div>
+        <button type="button" class="btn btn-outline-light mt-2" id="add-form">Adicionar show</button>
+        <br><br>
+
+        <button type="submit" class="btn btn-primary mt-3">Salvar alterações</button>
+    </form>
+</div>
+{% endblock %}

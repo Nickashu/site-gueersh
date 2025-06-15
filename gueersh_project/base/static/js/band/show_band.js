@@ -24,6 +24,9 @@ $(function() {
     });
 });
 
-function confirmarExclusao() {
+function confirmarExclusaoBanda() {
     return confirm("Tem certeza que deseja excluir esta banda? Esta ação não pode ser desfeita.");
+}
+function confirmarExclusaoTurne() {
+    return confirm("Tem certeza que deseja excluir esta turnê? Esta ação não pode ser desfeita.");
 }

@@ -28,5 +28,8 @@ urlpatterns = [
     
     path("newsletter/subscribe/", views.newsletter_subscription, name='newsletter_subscription'),
     path('newsletter/unsubscribe/<uuid:token>/', views.newsletter_unsubscription, name='newsletter_unsubscription'),
-
+    
+    path('band/<slug:band_slug>/create_tour/', views.create_tour, name='create_tour'),
+    path('band/<slug:band_slug>/edit_tour/<int:tour_id>/', views.edit_tour, name='edit_tour'),
+    path('band/<slug:band_slug>/delete_tour/<int:tour_id>', views.delete_tour, name='delete_tour'),
 ]
