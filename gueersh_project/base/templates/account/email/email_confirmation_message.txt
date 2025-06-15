@@ -1,8 +1,8 @@
 Olá {{ user.username }}!
 
-Bem-vindo ao {{ current_site.name }}.
+Bem-vindo(a) ao {{ current_site.name }}.
 
-Para confirmar seu e-mail e ativar sua conta, clique no link abaixo:
+Para confirmar seu e-mail e completar seu cadastro, clique no link abaixo:
 
 {{ activate_url }}
 
