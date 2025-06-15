@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.getenv("DEBUG"))
+DEBUG = os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
@@ -98,10 +98,7 @@ if DEBUG:
     }
 else:   #Configuração para produção usando dj_database_url
     DATABASES = {
-        'default': dj_database_url.config(
-            default=os.getenv("DATABASE_URL"),
-            conn_max_age=600
-        )
+        'default': dj_database_url.parse(os.getenv("DATABASE_URL"), conn_max_age=600)
     }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -130,7 +127,10 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+if DEBUG:
+    USE_TZ = True
+else:
+    USE_TZ = False    #Desabilita o uso de timezone em produção para evitar problemas com o banco de dados
 
 
 # Static files (CSS, JavaScript, Images)
